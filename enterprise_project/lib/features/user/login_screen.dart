@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../../custom/textfield/custom_textfield.dart';
+import '../../custom/list/health_list.dart';
+import '../../custom/theme.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,7 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomTextField(),
-    );
+        body: CustomListTile(
+      cardColor: CustomTheme.lightRed,
+      iconBoxColor: CustomTheme.red,
+      title: "100 bmp",
+      titleColor: CustomTheme.red,
+      subTitle: "Blood Pressure",
+      subTitleColor: CustomTheme.textColor,
+      date: "2000/3/09",
+    ));
   }
 }

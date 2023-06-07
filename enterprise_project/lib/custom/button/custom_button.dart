@@ -20,15 +20,14 @@ class CustomButton extends StatelessWidget {
             height: 43,
             width: 101.74,
             decoration: BoxDecoration(
-              color: CustomTheme.secondaryColor,
+              color: CustomTheme.green,
               borderRadius: BorderRadius.vertical(
                   top: Radius.circular(10), bottom: Radius.circular(10)),
             ),
             child: Center(
               child: Text(title,
-                  // style: Theme.of(context).textTheme.headline1,
                   style: TextStyle(
-                    color: CustomTheme.whitetextColor,
+                    color: CustomTheme.whiteText,
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                   )),

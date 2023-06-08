@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.enterprise_project">
-   <application
+
+    <!--This permission is required if your application needs to access the internet-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
         android:label="enterprise_project"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

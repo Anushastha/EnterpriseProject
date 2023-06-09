@@ -1,3 +1,6 @@
+import 'package:enterprise_project/screens/forgotpassword.dart';
+import 'package:enterprise_project/screens/login.dart';
+import 'package:enterprise_project/screens/register.dart';
 import 'package:flutter/material.dart';
 
 import 'custom/button/custom_button.dart';
@@ -11,6 +14,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,7 +35,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: "/login",
+      routes: {
+        "/login": (BuildContext context) => LoginScreen(),
+        "/register": (BuildContext context) => RegisterScreen(),
+        "/forgotpassword": (BuildContext context) => ForgotPassword(),
+      },
     );
   }
 }

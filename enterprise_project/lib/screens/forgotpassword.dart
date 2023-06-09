@@ -109,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         SizedBox(
                           height: 30,
                         ),
-                        Padding(
+                        Padding( 
                           padding: const EdgeInsets.all(25.0),
                           child: CustomTextField(
                             lableText: "Email address",

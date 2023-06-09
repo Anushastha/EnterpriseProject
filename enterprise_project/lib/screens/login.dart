@@ -80,12 +80,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: 60,
+                          height: 20,
                         ),
                         Container(
                           child: Column(
                             children: <Widget>[
-                              SizedBox(height: 60),
+                              SizedBox(height: 20),
                               CustomTextField(
                                 lableText: "Email address",
                                 hintText: "Email address",
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                         TextButton(
                           onPressed: () {
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                         CustomButton(
                           title: "Login",
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

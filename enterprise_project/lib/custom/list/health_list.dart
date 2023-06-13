@@ -11,6 +11,7 @@ class CustomListTile extends StatefulWidget {
   final String subTitle;
   final Color subTitleColor;
   final String date;
+  final IconData icon;
 
   const CustomListTile({
     super.key,
@@ -21,6 +22,7 @@ class CustomListTile extends StatefulWidget {
     required this.subTitle,
     required this.subTitleColor,
     required this.date,
+    required this.icon,
   });
 
   @override
@@ -32,7 +34,8 @@ class _CustomListTileState extends State<CustomListTile> {
   Widget build(BuildContext context) {
     return Container(
       height: 86,
-      margin: EdgeInsets.symmetric(horizontal: 22, vertical: 71),
+      width: 350,
+      margin: EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       decoration: BoxDecoration(
           // color: CustomTheme.lightBlue,
           color: widget.cardColor,
@@ -80,9 +83,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 ),
               ],
             ),
-            SizedBox(
-              width: 70,
-            ),
+            Spacer(),
             SizedBox(
               height: 10,
             ),
@@ -90,10 +91,7 @@ class _CustomListTileState extends State<CustomListTile> {
               widget.date,
               style: TextStyle(color: CustomTheme.lightText),
             ),
-            CustomIcon(
-              icon: Icons.arrow_forward_ios,
-              iconSize: 20,
-            ),
+            Icon(Icons.arrow_forward_ios, size: 20),
           ],
         ),
       ),

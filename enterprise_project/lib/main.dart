@@ -1,3 +1,4 @@
+import 'package:enterprise_project/features/dashboard/home_screen.dart';
 import 'package:enterprise_project/screens/forgotpassword.dart';
 import 'package:enterprise_project/screens/login.dart';
 import 'package:enterprise_project/screens/register.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         "/login": (BuildContext context) => LoginScreen(),
         "/register": (BuildContext context) => RegisterScreen(),
         "/forgotpassword": (BuildContext context) => ForgotPassword(),
+        "/dashboard": (BuildContext context) => homeScreen(),
       },
     );
   }

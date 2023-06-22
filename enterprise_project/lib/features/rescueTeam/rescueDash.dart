@@ -1,3 +1,4 @@
+import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
 import 'package:flutter/material.dart';
 import '../../custom/theme.dart';
@@ -12,6 +13,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onTabTapped(int index) {
     setState(() {
@@ -19,9 +21,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: CustomTheme.backgroundColor,
       appBar: AppBar(
         elevation: 0.0,
@@ -29,12 +36,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
         leading: IconButton(
           icon: Icon(Icons.menu),
           color: Colors.black,
-          onPressed: () {
-            // Open drawer
-            Scaffold.of(context).openDrawer();
-          },
+          onPressed: _openDrawer,
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.sos),
+            color: Colors.black,
+            onPressed: () {
+              // Handle Location button pressed
+            },
+          ),
           IconButton(
             icon: Icon(Icons.location_on),
             color: Colors.black,
@@ -44,7 +55,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+      drawerEnableOpenDragGesture: false,
       drawer: Drawer(
+        surfaceTintColor: CustomTheme.blue,
         // Drawer content
         child: ListView(
           padding: EdgeInsets.zero,
@@ -54,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: CustomTheme.blue,
               ),
               child: Text(
-                'Drawer Header',
+                'Signed in as: ',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -62,18 +75,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             ListTile(
-              title: Text('Option 1'),
+              title: Text('Edit Profile'),
               onTap: () {
-                // Handle option 1 selected
-              },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                );              },
             ),
             ListTile(
-              title: Text('Option 2'),
+              title: Text('Log Out'),
               onTap: () {
                 // Handle option 2 selected
               },
             ),
-            // Add more ListTile widgets for additional options
           ],
         ),
       ),

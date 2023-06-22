@@ -42,6 +42,13 @@ dependencies:
   google_fonts: ^5.0.0
   step_progress_indicator: ^1.0.2
 
+  dio: ^4.0.6
+  loading_overlay: ^0.3.0
+  provider: ^6.0.1
+  dob_input_field: ^2.0.0
+  fluttertoast: ^8.1.2
+  intl: ^0.18.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,11 +1,10 @@
 import 'package:enterprise_project/features/dashboard/home_screen.dart';
-import 'package:enterprise_project/screens/forgotpassword.dart';
-import 'package:enterprise_project/screens/login.dart';
-import 'package:enterprise_project/screens/register.dart';
+import 'package:enterprise_project/features/user/screens/forgotpassword.dart';
+import 'package:enterprise_project/features/user/screens/login.dart';
+import 'package:enterprise_project/features/user/screens/register.dart';
 import 'package:flutter/material.dart';
 
 import 'custom/button/custom_button.dart';
-import 'features/user/login_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/login",
       routes: {
         "/login": (BuildContext context) => LoginScreen(),
-        "/register": (BuildContext context) => RegisterScreen(),
+        "/register": (BuildContext context) => RegisterWidget(),
         "/forgotpassword": (BuildContext context) => ForgotPassword(),
         "/dashboard": (BuildContext context) => homeScreen(),
       },

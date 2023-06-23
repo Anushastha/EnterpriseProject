@@ -1,4 +1,6 @@
 import 'package:enterprise_project/features/dashboard/home_screen.dart';
+import 'package:enterprise_project/features/rescueTeam/addTeam.dart';
+import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:enterprise_project/features/user/screens/forgotpassword.dart';
 import 'package:enterprise_project/features/user/screens/login.dart';
 import 'package:enterprise_project/features/user/screens/register.dart';
@@ -36,12 +38,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/login",
+      initialRoute: "/addteam",
       routes: {
         "/login": (BuildContext context) => LoginScreen(),
         "/register": (BuildContext context) => RegisterWidget(),
         "/forgotpassword": (BuildContext context) => ForgotPassword(),
         "/dashboard": (BuildContext context) => homeScreen(),
+        "/addteam": (BuildContext context) => AddTeam(),
       },
     );
   }

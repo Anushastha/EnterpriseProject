@@ -49,7 +49,9 @@ dependencies:
   fluttertoast: ^8.1.2
   intl: ^0.18.1
 
-  image_picker: ^0.8.9
+  #image_picker: ^0.8.9
+  image_picker: ^0.8.4+4
+
 
 dev_dependencies:
   flutter_test:

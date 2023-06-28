@@ -27,14 +27,31 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUser(String name) throws InterruptedException, ExecutionException {
+    public User getUser(Long number) throws InterruptedException, ExecutionException {
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<DocumentSnapshot> promise = firestore.collection(COLLECTION_NAME).document(name).get();
+        ApiFuture<DocumentSnapshot> promise = firestore.collection(COLLECTION_NAME).document(number.toString()).get();
         DocumentSnapshot snapshot = promise.get();
         if(snapshot.exists()){
-            User product = snapshot.toObject(User.class);
-            return product;
+            User user = snapshot.toObject(User.class);
+            return user;
         }
         return null;
+    }
+
+    @Override
+    public String deleteUser(Long number) {
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> promise = firestore.collection(COLLECTION_NAME).document(number.toString()).delete();
+        WriteResult writeResult;
+        try {
+            writeResult = promise.get();
+            return writeResult.getUpdateTime().toString();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

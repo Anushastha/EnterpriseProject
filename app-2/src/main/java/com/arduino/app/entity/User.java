@@ -23,4 +23,5 @@ public class User {
     private Long contactNo;
     private String gender;
     private Date dob;
+    private String role;
 }

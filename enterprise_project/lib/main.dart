@@ -1,6 +1,7 @@
-import 'package:enterprise_project/features/dashboard/home_screen.dart';
+import 'package:enterprise_project/features/user/dashboard/health_screen.dart';
 import 'package:enterprise_project/features/rescueTeam/addTeam.dart';
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
+import 'package:enterprise_project/features/user/dashboard/home_screen.dart';
 import 'package:enterprise_project/features/user/screens/forgotpassword.dart';
 import 'package:enterprise_project/features/user/screens/login.dart';
 import 'package:enterprise_project/features/user/screens/register.dart';
@@ -10,6 +11,8 @@ import 'custom/button/custom_button.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'features/rescueTeam/rescueDash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,13 +41,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/addteam",
+      initialRoute: "/login",
       routes: {
         "/login": (BuildContext context) => LoginScreen(),
         "/register": (BuildContext context) => RegisterWidget(),
         "/forgotpassword": (BuildContext context) => ForgotPassword(),
-        "/dashboard": (BuildContext context) => homeScreen(),
+        "/userDashboard": (BuildContext context) => HomeScreen(),
         "/addteam": (BuildContext context) => AddTeam(),
+        "/rescueDashboard": (BuildContext context) => DashboardScreen(),
       },
     );
   }

@@ -1,4 +1,3 @@
-
 class Users {
   String firstName;
   String lastName;
@@ -6,7 +5,9 @@ class Users {
   String password;
   String address;
   String contactNo;
+  String gender;
   String dob;
+  String role;
 
   Users({
     required this.firstName,
@@ -15,6 +16,8 @@ class Users {
     required this.password,
     required this.address,
     required this.contactNo,
+    required this.gender,
     required this.dob,
+    required this.role,
   });
 }

@@ -2,7 +2,7 @@ import 'package:enterprise_project/custom/icon/custom_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../../custom/theme.dart';
+import '../../../custom/theme.dart';
 
 class StepsScreen extends StatefulWidget {
   const StepsScreen({super.key});

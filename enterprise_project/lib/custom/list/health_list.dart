@@ -34,7 +34,7 @@ class _CustomListTileState extends State<CustomListTile> {
   Widget build(BuildContext context) {
     return Container(
       height: 86,
-      width: 350,
+      width: 340,
       margin: EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       decoration: BoxDecoration(
           // color: CustomTheme.lightBlue,

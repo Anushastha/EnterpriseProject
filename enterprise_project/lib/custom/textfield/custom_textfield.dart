@@ -1,3 +1,4 @@
+import 'package:control_style/control_style.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
@@ -11,17 +12,20 @@ class CustomTextField extends StatefulWidget {
   final bool obscureText;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
+  final void Function()? onPressed;
+  final TextInputType? keyboardType;
 
-  CustomTextField({
-    this.hintText,
-    required this.lableText,
-    this.textInputType,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.obscureText = false,
-    this.validator,
-    this.controller,
-  });
+  CustomTextField(
+      {this.hintText,
+      required this.lableText,
+      this.textInputType,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.obscureText = false,
+      this.validator,
+      this.controller,
+      this.onPressed,
+      this.keyboardType});
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -35,36 +39,49 @@ class _CustomTextFieldState extends State<CustomTextField> {
         children: [
           const SizedBox(height: 20),
           Container(
-            height: 70,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 43),
-              child: TextFormField(
-                // keyboardType: TextInputType.emailAddress,
-                obscureText: widget.obscureText,
-                controller: widget.controller,
-                validator: widget.validator,
-                cursorColor: CustomTheme.lightText,
-                decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: new BorderSide(
-                    color: CustomTheme.lightText,
-                    width: 0.5,
-                  )),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: new BorderSide(
-                    color: CustomTheme.lightText,
-                    width: 0.5,
-                  )),
-                  labelText: widget.lableText,
-                  labelStyle: TextStyle(
-                    color: CustomTheme.textColor,
+            height: 60,
+            // width: 320,
+            child: TextFormField(
+              keyboardType: widget.keyboardType,
+              obscureText: widget.obscureText,
+              controller: widget.controller,
+              decoration: InputDecoration(
+                  label: Text(
+                    widget.lableText,
+                    style:
+                        TextStyle(fontSize: 15, color: CustomTheme.lightText),
                   ),
-                  floatingLabelStyle: TextStyle(color: CustomTheme.textColor),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
                   prefixIcon: widget.prefixIcon,
                   suffixIcon: widget.suffixIcon,
-                ),
-              ),
+                  border: DecoratedInputBorder(
+                    child: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                    ),
+                    shadow: [
+                      BoxShadow(
+                        color: CustomTheme.shadowColor,
+                        blurRadius: 7,
+                        spreadRadius: 2.2,
+                      )
+                    ],
+                  ),
+                  disabledBorder: InputBorder.none,
+                  filled: true,
+                  fillColor: CustomTheme.whiteText,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 13,
+                  ),
+                  hintText: widget.hintText,
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    color: CustomTheme.lightText,
+                  )),
+              validator: widget.validator,
             ),
           ),
         ],

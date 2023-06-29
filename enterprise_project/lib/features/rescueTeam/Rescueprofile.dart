@@ -151,6 +151,7 @@ import '../../custom/theme.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
+  //when logged in, this screen comes first
   Widget build(BuildContext context) {
     return Center(
       child: Card(

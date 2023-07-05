@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch AppApplication",
+            "request": "launch",
+            "mainClass": "com.arduino.app.AppApplication",
+            "projectName": "app"
+        },
+        {
             "name": "enterprise_project",
             "cwd": "enterprise_project",
             "request": "launch",

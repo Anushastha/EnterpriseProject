@@ -17,14 +17,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
+
 @RestController
 @RequestMapping("/api/watch")
 @AllArgsConstructor
 public class WatchController {
     private final WatchService watchService;
 
-    private boolean checkSession(HttpSession session){
-        return(session != null);
+    public WatchController(WatchService watchService) {
+        this.watchService = watchService;
+    }
+
+    private boolean checkSession(HttpSession session) {
+        return (session != null);
     }
 
     @GetMapping("/{field}")
@@ -52,7 +57,6 @@ public class WatchController {
             catch(Exception e){
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
-            
         }
         return new ResponseEntity<>("Unauthorized",HttpStatus.FORBIDDEN);
     }

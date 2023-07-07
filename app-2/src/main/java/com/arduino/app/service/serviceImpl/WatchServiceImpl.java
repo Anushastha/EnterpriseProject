@@ -1,5 +1,6 @@
 package com.arduino.app.service.serviceImpl;
 
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -18,16 +19,16 @@ public class WatchServiceImpl implements WatchService{
     @Override
     public String getValue(String field) throws InterruptedException, ExecutionException {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference sensorValue = database.child(field);
+        DatabaseReference sensorRef = database.child(field);
 
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        sensorValue.addListenerForSingleValueEvent(new ValueEventListener() {
+        sensorRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Float temperatureValue = dataSnapshot.getValue(Float.class);
-                System.out.println("Sensor value: " + temperatureValue);
-                future.complete(temperatureValue.toString());
+                Float sensorValue = dataSnapshot.getValue(Float.class);
+                System.out.println("Sensor value: " + sensorValue);
+                future.complete(sensorValue.toString());
             }
 
             @Override
@@ -43,9 +44,9 @@ public class WatchServiceImpl implements WatchService{
     @Override
     public <T> void writeValue(String field, T value) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference sensorValue = database.child(field);
+        DatabaseReference sensorRef = database.child(field);
 
-        sensorValue.setValue(value, new DatabaseReference.CompletionListener() {
+        sensorRef.setValue(value, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
@@ -57,4 +58,31 @@ public class WatchServiceImpl implements WatchService{
         });
     }
 
+    @Override
+    public HashMap<String, Double> getAllValues() throws InterruptedException, ExecutionException {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = database.child("");
+        HashMap<String, Double> valueMap = new HashMap<>();
+
+        CompletableFuture<HashMap<String, Double>> future = new CompletableFuture<>();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String fieldName = childSnapshot.getKey();
+                    Object fieldValue = childSnapshot.getValue();
+                    valueMap.put(fieldName, Double.parseDouble(fieldValue.toString()));
+                }
+                future.complete(valueMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                future.completeExceptionally(databaseError.toException());
+            }
+        });
+
+        return future.get();
+    }
 }

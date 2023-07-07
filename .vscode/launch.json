@@ -6,6 +6,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AppApplication",
+            "request": "launch",
+            "mainClass": "AppApplication"
+        },
+        {
+            "type": "java",
             "name": "Launch AppApplication",
             "request": "launch",
             "mainClass": "com.arduino.app.AppApplication",

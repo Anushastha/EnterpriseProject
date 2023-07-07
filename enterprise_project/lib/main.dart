@@ -1,4 +1,4 @@
-import 'package:enterprise_project/features/user/dashboard/health_screen.dart';
+import 'package:enterprise_project/features/user/dashboard/health/health_screen.dart';
 import 'package:enterprise_project/features/rescueTeam/addTeam.dart';
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:enterprise_project/features/user/dashboard/home_screen.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/login",
+      initialRoute: "/userDashboard",
       routes: {
         "/login": (BuildContext context) => LoginScreen(),
         "/register": (BuildContext context) => RegisterWidget(),

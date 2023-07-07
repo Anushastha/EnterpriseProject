@@ -15,15 +15,13 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class UserServiceImpl implements UserService{
-    
     private static final String COLLECTION_NAME = "users";
-    
+
 
     public String saveUser(User user) throws InterruptedException, ExecutionException{
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> promise = firestore.collection(COLLECTION_NAME).document(user.getContactNo().toString()).set(user);
         return promise.get().getUpdateTime().toString();
-        
     }
 
     @Override

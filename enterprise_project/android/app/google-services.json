@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "560897716509",
-    "project_id": "enterprise-441ea",
-    "storage_bucket": "enterprise-441ea.appspot.com"
+    "project_number": "737573017775",
+    "firebase_url": "https://arduino-8f2b8-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "arduino-8f2b8",
+    "storage_bucket": "arduino-8f2b8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:560897716509:android:8d40882b095813e54bb1f4",
+        "mobilesdk_app_id": "1:737573017775:android:720add9508ee4498211c5a",
         "android_client_info": {
           "package_name": "com.example.enterprise_project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "560897716509-u93osjjnl0hp8jq3rg855pqga1l7pu29.apps.googleusercontent.com",
+          "client_id": "737573017775-37lpkjepitq96n8a4ts4rkok0tth47v8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBCi5yRAK7zyw6Dhz4TAdTm5RPznQ9l6Ew"
+          "current_key": "AIzaSyBLTeng9YD6T0ad2nJsVNAUoCUlKiP4lrM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "560897716509-u93osjjnl0hp8jq3rg855pqga1l7pu29.apps.googleusercontent.com",
+              "client_id": "737573017775-37lpkjepitq96n8a4ts4rkok0tth47v8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

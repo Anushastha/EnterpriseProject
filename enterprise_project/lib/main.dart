@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/userDashboard",
+      initialRoute: "/login",
       routes: {
         "/login": (BuildContext context) => LoginScreen(),
         "/register": (BuildContext context) => RegisterWidget(),

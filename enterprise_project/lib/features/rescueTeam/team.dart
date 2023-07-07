@@ -1,9 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:enterprise_project/custom/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'addTeam.dart';
 
-class TeamScreen extends StatelessWidget {
+class TeamScreen extends StatefulWidget {
+  @override
+  _TeamScreenState createState() => _TeamScreenState();
+}
+
+class _TeamScreenState extends State<TeamScreen> {
+  late User _currentUser;
+  List<UserData> _registeredUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+    _fetchRegisteredUsers();
+  }
+
+  Future<void> _getCurrentUser() async {
+    _currentUser = FirebaseAuth.instance.currentUser!;
+  }
+
+  Future<void> _fetchRegisteredUsers() async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('role', isEqualTo: 'Rescue')
+        .get();
+
+    final List<UserData> users = snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      final String firstName = data['firstName'] as String;
+      final String lastName = data['lastName'] as String;
+      final String contactNo = data['contactNo'].toString();
+      final String name = '$firstName $lastName';
+      return UserData(
+        name: name,
+        contactNo: contactNo,
+      );
+    }).toList();
+
+    setState(() {
+      _registeredUsers = users;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +61,7 @@ class TeamScreen extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(left:40.0),
+                      padding: const EdgeInsets.only(left: 40.0),
                       child: Text(
                         'Team',
                         style: TextStyle(
@@ -42,36 +86,20 @@ class TeamScreen extends StatelessWidget {
                   },
                 ),
               ],
-            ),            SizedBox(height: 20.0),
-            CardItem(
-              name: 'Mansoon Dangol',
-              phoneNumber: '9817660885',
-              image: 'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
             ),
-            CardItem(
-              name: 'Sarita Ban',
-              phoneNumber: '9810775642',
-              image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnO6SJGlkh-LfnwKe-yTYUNKzyad9xnlhBYg&usqp=CAU',
-            ),
-            CardItem(
-              name: 'Namrata Regmi',
-              phoneNumber: '9841173085',
-              image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2FAUBGiR6zhUqQClHm8mM0RpY7drYQB1qPYlsN0xXF6-M7kl0ON4XOpbuD_DfhvDNWNo&usqp=CAU',
-            ),
-            CardItem(
-              name: 'Jason Rai',
-              phoneNumber: '9841568095',
-              image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEZReC1Pu5YrUBFjENhqQNFsI2crcnfBdIw&usqp=CAU',
-            ),
-            CardItem(
-              name: 'Aakash Dhakal',
-              phoneNumber: '9810887631',
-              image: 'https://i.pinimg.com/736x/72/c5/4f/72c54f8683612516c7c71a29fae53a05.jpg',
-            ),
-            CardItem(
-              name: 'Biswa Sharma',
-              phoneNumber: '9841560935',
-              image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZC_95EVYM_FcC4b-LJg6XHL4p1E673azPuTMH92vOjnVJE0-dIyTszYt6teIip0PPcQs&usqp=CAU',
+            SizedBox(height: 20.0),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: _registeredUsers.length,
+              itemBuilder: (context, index) {
+                final user = _registeredUsers[index];
+                return CardItem(
+                  name: user.name,
+                  contactNo: user.contactNo,
+                  image:
+                  'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
+                );
+              },
             ),
           ],
         ),
@@ -82,13 +110,13 @@ class TeamScreen extends StatelessWidget {
 
 class CardItem extends StatelessWidget {
   final String name;
-  final String phoneNumber;
+  final String contactNo;
   final String image;
 
   const CardItem({
     Key? key,
     required this.name,
-    required this.phoneNumber,
+    required this.contactNo,
     required this.image,
   }) : super(key: key);
 
@@ -114,7 +142,7 @@ class CardItem extends StatelessWidget {
                     SizedBox(height: 16.0),
                     Text('Name: $name'),
                     SizedBox(height: 8.0),
-                    Text('Phone Number: $phoneNumber'),
+                    Text('Contact No: $contactNo'),
                   ],
                 ),
                 actions: [
@@ -141,7 +169,7 @@ class CardItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          phoneNumber,
+          contactNo,
           style: TextStyle(
             color: CustomTheme.lightText,
           ),
@@ -149,4 +177,14 @@ class CardItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class UserData {
+  final String name;
+  final String contactNo;
+
+  UserData({
+    required this.name,
+    required this.contactNo,
+  });
 }

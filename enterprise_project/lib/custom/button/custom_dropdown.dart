@@ -19,7 +19,6 @@ class CustomDropDown extends StatelessWidget {
       required this.dropdownItems,
       this.onChanged});
 
-
   String? selectedValue;
 
   @override

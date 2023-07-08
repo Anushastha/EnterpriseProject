@@ -75,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             ListTile(
-              title: Text('Edit Profile'),
+              title: Text('Personal Info'),
               onTap: () {
                 Navigator.push(
                   context,

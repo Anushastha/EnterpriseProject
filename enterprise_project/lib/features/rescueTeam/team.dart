@@ -17,8 +17,8 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
     _fetchRegisteredUsers();
+    //_getCurrentUser();
   }
 
   Future<void> _getCurrentUser() async {
@@ -97,7 +97,7 @@ class _TeamScreenState extends State<TeamScreen> {
                   name: user.name,
                   contactNo: user.contactNo,
                   image:
-                  'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
+                      'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
                 );
               },
             ),

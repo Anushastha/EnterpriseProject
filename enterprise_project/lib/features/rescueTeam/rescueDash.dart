@@ -1,5 +1,6 @@
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../custom/theme.dart';
 import 'Rescueprofile.dart';
@@ -80,12 +81,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => EditProfileScreen()),
-                );              },
+                );
+              },
             ),
             ListTile(
               title: Text('Log Out'),
               onTap: () {
-                // Handle option 2 selected
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Log Out'),
+                      content: Text('Are you sure you want to log out?'),
+                      actions: [
+                        TextButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Log Out'),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.pushReplacementNamed(context,
+                                '/login'); // Navigate to the login screen
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ],
@@ -102,7 +128,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 index: _currentIndex,
                 children: [
                   // Screens for each menu option
-                  ProfileScreen(),
+                  Profile(),
                   AlertScreen(),
                   TeamScreen(),
                   Chats(),

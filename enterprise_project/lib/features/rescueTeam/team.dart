@@ -11,7 +11,7 @@ class TeamScreen extends StatefulWidget {
 }
 
 class _TeamScreenState extends State<TeamScreen> {
-  late User _currentUser;
+  late User _currentUser; //late = will be initialized later
   List<UserData> _registeredUsers = [];
 
   @override
@@ -34,9 +34,11 @@ class _TeamScreenState extends State<TeamScreen> {
     final List<UserData> users = snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
       final String firstName = data['firstName'] as String;
+      final String middleName = data['middleName'] as String;
       final String lastName = data['lastName'] as String;
-      final String contactNo = data['contactNo'].toString();
-      final String name = '$firstName $lastName';
+      final String contactNo = doc.id; // Using document ID as contactNo
+      final String name =
+          '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
       return UserData(
         name: name,
         contactNo: contactNo,
@@ -46,6 +48,55 @@ class _TeamScreenState extends State<TeamScreen> {
     setState(() {
       _registeredUsers = users;
     });
+  }
+
+  Future<void> _deleteMember(String contactNo) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Member'),
+          content: Text('Are you sure you want to delete this member?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () async {
+                try {
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(contactNo) // Use contactNo as the document ID
+                      .delete();
+
+                  setState(() {
+                    _registeredUsers.removeWhere((user) => user.contactNo == contactNo);
+                  });
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Member deleted successfully'),
+                    ),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to delete member'),
+                    ),
+                  );
+                }
+
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -81,7 +132,11 @@ class _TeamScreenState extends State<TeamScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddTeam()),
+                      MaterialPageRoute(
+                        builder: (context) => AddTeam(
+                          onTeamMemberAdded: _fetchRegisteredUsers,
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -93,11 +148,42 @@ class _TeamScreenState extends State<TeamScreen> {
               itemCount: _registeredUsers.length,
               itemBuilder: (context, index) {
                 final user = _registeredUsers[index];
-                return CardItem(
-                  name: user.name,
-                  contactNo: user.contactNo,
-                  image:
-                  'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
+                return ListTile(
+                  hoverColor: Colors.grey,
+                  leading: CircleAvatar(
+                    radius: 25.0,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(
+                      'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
+                    ),
+                  ),
+                  title: Text(
+                    user.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.contactNo,
+                        style: TextStyle(
+                          color: CustomTheme.lightText,
+                        ),
+                      ),
+                      SizedBox(height: 4.0),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () async {
+                      await _deleteMember(user.contactNo);
+                    },
+                  ),
                 );
               },
             ),
@@ -108,81 +194,9 @@ class _TeamScreenState extends State<TeamScreen> {
   }
 }
 
-class CardItem extends StatelessWidget {
-  final String name;
-  final String contactNo;
-  final String image;
-
-  const CardItem({
-    Key? key,
-    required this.name,
-    required this.contactNo,
-    required this.image,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Team Member Details'),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      radius: 50.0,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: NetworkImage(image),
-                    ),
-                    SizedBox(height: 16.0),
-                    Text('Name: $name'),
-                    SizedBox(height: 8.0),
-                    Text('Contact No: $contactNo'),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Close'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        leading: CircleAvatar(
-          radius: 25.0,
-          backgroundColor: Colors.grey,
-          backgroundImage: NetworkImage(image),
-        ),
-        title: Text(
-          name,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          contactNo,
-          style: TextStyle(
-            color: CustomTheme.lightText,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class UserData {
   final String name;
   final String contactNo;
-
   UserData({
     required this.name,
     required this.contactNo,

@@ -143,13 +143,35 @@
 //     );
 //   }
 // }
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../custom/theme.dart';
 // import 'editProfile.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  final String name;
+  final String email;
+  final String contactNo;
+  final String address;
+  final String image;
+
+  const ProfileScreen({
+    Key? key,
+    required this.name,
+    required this.email,
+    required this.contactNo,
+    required this.address,
+    required this.image,
+  }) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   //when logged in, this screen comes first
   Widget build(BuildContext context) {
@@ -188,18 +210,18 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 24.0),
               Center(
                 child: Text(
-                  'Jason Rai',
+                  '${widget.name}',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
                     color: CustomTheme.textColor,
+                    fontSize: 16,
                   ),
                 ),
               ),
+
               SizedBox(height: 20.0),
               Center(
                 child: Text(
-                  'jason.rai@example.com',
+                  '${widget.email}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -209,7 +231,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 10.0),
               Center(
                 child: Text(
-                  '9841568095',
+                  '${widget.contactNo}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -219,7 +241,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 8.0),
               Center(
                 child: Text(
-                  'Baneshwor, Kathmandu, Nepal',
+                  '${widget.address}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -254,6 +276,132 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class UserData {
+  final String name;
+  final String email;
+  final String contactNo;
+  final String address;
+
+  UserData({
+    required this.name,
+    required this.email,
+    required this.contactNo,
+    required this.address,
+  });
+}
+
+class Profile extends StatefulWidget {
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  User? _currentUser;
+  List<UserData> _registeredUsers = [];
+  var contact;
+  var contactNoPass;
+  var namePass;
+  var emailPass;
+  var addressPass;
+
+  @override
+  void didChangeDependencies() {
+    contact = ModalRoute.of(context)!.settings.arguments as String?;
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+
+    _fetchRegisteredUsers();
+  }
+
+  Future<void> _getCurrentUser() async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('role', isEqualTo: 'Rescue')
+        .get();
+
+    final List<UserData> users = snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      final String firstName = data['firstName'] as String;
+      final String lastName = data['lastName'] as String;
+      final String contactNo = data['contactNo'].toString();
+      final String name = '$firstName $lastName';
+      final String address = data['address'] as String;
+      // final String email = data['email'] as String;
+      return UserData(
+        name: name,
+        contactNo: contactNo,
+        address: address,
+        email: 'emailStatic',
+      );
+    }).toList();
+
+    for (var i in users) {
+      if (i.contactNo == contact) {
+        contactNoPass = i.contactNo;
+        namePass = i.name;
+        addressPass = i.address;
+        emailPass = i.email;
+      }
+      setState(() {});
+    }
+  }
+
+  Future<void> _fetchRegisteredUsers() async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('role', isEqualTo: 'Rescue')
+        .get();
+
+    final List<UserData> users = snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      final String firstName = data['firstName'] as String;
+      final String lastName = data['lastName'] as String;
+      final String contactNo = data['contactNo'].toString();
+      final String address = data['address'] as String;
+      final String name = '$firstName $lastName';
+      return UserData(
+        name: name,
+        contactNo: contactNo,
+        address: address,
+        email: 'emailStaic',
+      );
+    }).toList();
+
+    setState(() {
+      _registeredUsers = users;
+    });
+  }
+
+  @override
+  // ignore: dead_code
+  Widget build(BuildContext context) {
+    var name = namePass;
+    var email = emailPass;
+    var contactNo = contactNoPass;
+    var address = addressPass;
+    if (_currentUser == null) {
+      // Handle the case when _currentUser is null
+      name = name; // or provide a default value for the name
+      email = email;
+      contactNo = contactNo;
+      address = address; // or provide a default value for the contactNo
+    }
+
+    return ProfileScreen(
+      name: name,
+      email: email,
+      contactNo: contactNo,
+      address: address,
+      image: 'https://example.com/profile-image.jpg',
     );
   }
 }

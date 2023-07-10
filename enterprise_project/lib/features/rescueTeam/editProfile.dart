@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enterprise_project/custom/textfield/custom_dateTime.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../custom/theme.dart';
 
@@ -15,22 +17,21 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final form = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phonenumberController = TextEditingController();
+  TextEditingController _joineddateController = TextEditingController();
   TextEditingController rescuedepartmentController = TextEditingController();
   String? _errormessage;
 
   @override
   void initState() {
+    _joineddateController.text = "";
     super.initState();
     _fetchUserData();
   }
 
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
-    phonenumberController.dispose();
+    _joineddateController.dispose();
     rescuedepartmentController.dispose();
     super.dispose();
   }
@@ -60,9 +61,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 .get();
         if (userSnapshot.exists) {
           Map<String, dynamic> userData = userSnapshot.data()!;
-          nameController.text = userData['name'] as String? ?? '';
+
           emailController.text = userData['email'] as String? ?? '';
-          phonenumberController.text = userData['phonenumber'] as String? ?? '';
+          _joineddateController.text = userData['phonenumber'] as String? ?? '';
           rescuedepartmentController.text =
               userData['rescuedepartment'] as String? ?? '';
         }
@@ -84,9 +85,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               .collection('users')
               .doc(user.uid)
               .update({
-            'name': nameController.text,
             'email': emailController.text,
-            'phonenumber': phonenumberController.text,
+            'joineddate': _joineddateController.text,
             'rescuedepartment': rescuedepartmentController.text,
           });
           ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +107,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
-        title: Text('Edit Profile'),
+        title: Text('Personal Info'),
         backgroundColor: CustomTheme.backgroundColor,
         foregroundColor: CustomTheme.blue,
       ),
@@ -123,7 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Center(
                   child: CircleAvatar(
                     radius: 80.0,
-                    backgroundColor: Colors.grey,
+                    backgroundColor: CustomTheme.shadowColor,
                     // Replace with the actual image widget or load image from network
                     // backgroundImage: AssetImage('assets/images/profile_image.jpg'),
                   ),
@@ -152,28 +152,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30.0),
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    floatingLabelStyle: TextStyle(
-                      color: CustomTheme.blue,
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your name.';
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: emailController,
@@ -183,7 +161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: CustomTheme.blue,
                     ),
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: CustomTheme.shadowColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,
@@ -199,26 +177,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: phonenumberController,
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    floatingLabelStyle: TextStyle(
-                      color: CustomTheme.blue,
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a phone number.';
+                SizedBox(
+                  height: 20,
+                ),
+                CustomDateTime(
+                  controller: _joineddateController,
+                  onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(
+                            2022), //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2028));
+                    DateFormat date = DateFormat("yyyy-MM-dd");
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                    validator:
+                    (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Date is required";
+                      }
+                      return null;
+                    };
+                    if (pickedDate != null) {
+                      print(pickedDate);
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(formattedDate);
+                      setState(() {
+                        _joineddateController.text = formattedDate;
+                      });
+                    } else {
+                      print("Date is not selected");
                     }
-                    return null;
                   },
                 ),
                 SizedBox(height: 16.0),
@@ -230,7 +220,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: CustomTheme.blue,
                     ),
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: CustomTheme.shadowColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide.none,

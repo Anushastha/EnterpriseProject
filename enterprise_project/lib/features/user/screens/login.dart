@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       "Logged in successfully");
                                             } else if (role == 'Rescue') {
                                               Navigator.of(context).pushNamed(
-                                                  '/rescueDashboard');
+                                                  '/rescueDashboard', arguments : contact.text);
                                               Fluttertoast.showToast(
                                                   msg:
                                                       "Logged in successfully");

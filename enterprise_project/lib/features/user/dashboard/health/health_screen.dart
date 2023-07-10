@@ -65,14 +65,18 @@ class _healthScreenState extends State<healthScreen> {
                       subTitleColor: CustomTheme.textColor,
                       date: "3/08/2023"),
                   CustomListTile(
-                      cardColor: CustomTheme.lightRed,
-                      iconBoxColor: CustomTheme.red,
-                      icon: Icons.monitor_heart_outlined,
-                      title: "98 Bpm",
-                      titleColor: CustomTheme.red,
-                      subTitle: "Heart Rate",
-                      subTitleColor: CustomTheme.textColor,
-                      date: "3/08/2023"),
+                    cardColor: CustomTheme.lightRed,
+                    iconBoxColor: CustomTheme.red,
+                    icon: Icons.monitor_heart_outlined,
+                    title: "98 Bpm",
+                    titleColor: CustomTheme.red,
+                    subTitle: "Heart Rate",
+                    subTitleColor: CustomTheme.textColor,
+                    date: "3/08/2023",
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/bpm");
+                    },
+                  ),
                   CustomListTile(
                       cardColor: CustomTheme.lightGreen,
                       iconBoxColor: CustomTheme.green,

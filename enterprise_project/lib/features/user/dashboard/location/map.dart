@@ -66,10 +66,10 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void sendLocation(double latitude, double longitude, double altitude) {
-    _databaseReference.set({
-      'latitude': latitude,
-      'longitude': longitude,
-      'altitude': altitude,
+    _databaseReference.update({
+      'Latitude': latitude,
+      'Longitude': longitude,
+      'Altitude': altitude,
     }).then((value) {
       print("sent successfully");
       print("Latitide $latitude");

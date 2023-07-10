@@ -13,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'features/rescueTeam/rescueDash.dart';
+import 'features/user/dashboard/health/bpm/bpm_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         "/userDashboard": (BuildContext context) => HomeScreen(),
         "/addteam": (BuildContext context) => AddTeam(),
         "/rescueDashboard": (BuildContext context) => DashboardScreen(),
+        "/bpm": (BuildContext context) => BpmScreen(),
       },
     );
   }

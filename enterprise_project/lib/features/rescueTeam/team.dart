@@ -17,8 +17,8 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
     _fetchRegisteredUsers();
+    //_getCurrentUser();
   }
 
   Future<void> _getCurrentUser() async {
@@ -155,6 +155,7 @@ class _TeamScreenState extends State<TeamScreen> {
               itemCount: _registeredUsers.length,
               itemBuilder: (context, index) {
                 final user = _registeredUsers[index];
+<<<<<<< HEAD
                 return ListTile(
                   hoverColor: Colors.grey,
                   leading: CircleAvatar(
@@ -198,6 +199,13 @@ class _TeamScreenState extends State<TeamScreen> {
                       await _deleteMember(user.contactNo);
                     },
                   ),
+=======
+                return CardItem(
+                  name: user.name,
+                  contactNo: user.contactNo,
+                  image:
+                      'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
+>>>>>>> f8c6cdbd1f91612e8a7b22212b78380a3a73bfec
                 );
               },
             )

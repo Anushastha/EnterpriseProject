@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c299082b-9f67-4091-b765-fa7366b86e94" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/team.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/team.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/model/rescue_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/model/rescue_model.dart" afterDir="false" />
-    </list>
+    <list default="true" id="c299082b-9f67-4091-b765-fa7366b86e94" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

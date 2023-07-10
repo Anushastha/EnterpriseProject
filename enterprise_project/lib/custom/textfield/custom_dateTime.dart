@@ -24,11 +24,7 @@ class _CustomDateTimeState extends State<CustomDateTime> {
           validator: widget.validator,
           controller: widget.controller, //editing controller of this TextField
           decoration: InputDecoration(
-              label: Text(
-                "dob",
-                style: TextStyle(fontSize: 15, color: CustomTheme.lightText),
-              ),
-              suffixIcon: Icon(Icons.calendar_today), //icon of text field
+      suffixIcon: Icon(Icons.calendar_today), //icon of text field
               border: DecoratedInputBorder(
                 child: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),

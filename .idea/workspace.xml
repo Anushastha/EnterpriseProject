@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c299082b-9f67-4091-b765-fa7366b86e94" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/EnterpriseProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EnterpriseProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app-2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/team.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/team.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/model/rescue_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/model/rescue_model.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +24,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

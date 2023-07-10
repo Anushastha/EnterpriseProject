@@ -7,6 +7,7 @@ class Rescue {
   String contactNo;
   String gender;
   String dob;
+  String rescueDepartment;
   String role;
 
   Rescue({
@@ -18,6 +19,7 @@ class Rescue {
     required this.contactNo,
     required this.gender,
     required this.dob,
+    required this.rescueDepartment,
     required this.role,
   });
 }

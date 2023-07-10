@@ -1,54 +1,377 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:enterprise_project/custom/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+ import 'package:enterprise_project/features/rescueTeam/team.dart';
+ import 'package:intl/intl.dart';
+//
+ import '../../custom/textfield/custom_dateTime.dart';
+//
+// class AddTeam extends StatefulWidget {
+//   final VoidCallback? onTeamMemberAdded;
+//
+//   const AddTeam({Key? key, this.onTeamMemberAdded}) : super(key: key);
+//
+//   @override
+//   State<AddTeam> createState() => _AddTeamState();
+// }
+//
+//
+// class _AddTeamState extends State<AddTeam> {
+//   final form = GlobalKey<FormState>();
+//   TextEditingController firstNameController = TextEditingController();
+//   TextEditingController middleNameController = TextEditingController();
+//   TextEditingController lastNameController = TextEditingController();
+//   TextEditingController contactNoController = TextEditingController();
+//   TextEditingController addressController = TextEditingController();
+//   TextEditingController _dob = TextEditingController();
+//   TextEditingController rescuedepartmentController = TextEditingController();
+//   String? selectedGender;
+//
+//   @override
+//   void initState() {
+//     _dob.text = ""; //set the initial value of text field
+//     super.initState();
+//   }
+//   Future<void> _saveTeamMember() async {
+//     try {
+//       // Get a reference to the Firestore collection
+//       CollectionReference usersCollection =
+//       FirebaseFirestore.instance.collection('users');
+//
+//       // Create a new user document with contactNo as the document ID
+//       await usersCollection.doc(contactNoController.text).set({
+//         'firstName': firstNameController.text,
+//         'middleName': middleNameController.text,
+//         'lastName': lastNameController.text,
+//         'contactNo': contactNoController.text,
+//         'address': addressController.text,
+//         'dob': _dob.text,
+//         'gender': selectedGender,
+//         'role': 'Rescue',
+//         'rescuedepartment': rescuedepartmentController.text,
+//       });
+//
+//       // Show success dialog
+//       showDialog(
+//         context: context,
+//         builder: (BuildContext context) {
+//           return AlertDialog(
+//             title: Text('Success'),
+//             content: Text('Team member added successfully'),
+//             actions: <Widget>[
+//               TextButton(
+//                 child: Text('OK'),
+//                 onPressed: () {
+//                   // Call the callback function to update the team list
+//                   widget.onTeamMemberAdded?.call();
+//                   Navigator.of(context).pop();
+//                   Navigator.pop(context); // Pop the AddTeam screen
+//                 },
+//               ),
+//             ],
+//           );
+//         },
+//       );
+//     } catch (e) {
+//       // Show error dialog
+//       showDialog(
+//         context: context,
+//         builder: (BuildContext context) {
+//           return AlertDialog(
+//             title: Text('Error'),
+//             content: Text('Failed to add team member'),
+//             actions: <Widget>[
+//               TextButton(
+//                 child: Text('OK'),
+//                 onPressed: () => Navigator.of(context).pop(),
+//               ),
+//             ],
+//           );
+//         },
+//       );
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: CustomTheme.backgroundColor,
+//       appBar: AppBar(
+//         elevation: 0.0,
+//         centerTitle: true,
+//         title: Text('Add Team Member'),
+//         backgroundColor: CustomTheme.backgroundColor,
+//         foregroundColor: CustomTheme.blue,
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.all(16.0),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: [
+//               Form(
+//                 key: form,
+//                 child: Column(
+//                   children: [
+//                     TextFormField(
+//                       controller: firstNameController,
+//                       decoration: InputDecoration(
+//                         labelText: 'First Name',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         if (value == null || value.isEmpty) {
+//                           return 'Please enter your first name';
+//                         }
+//                         return null;
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//                     TextFormField(
+//                       controller: middleNameController,
+//                       decoration: InputDecoration(
+//                         labelText: 'Middle Name',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         // Add validation logic for middle name if required
+//                         return null;
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//                     TextFormField(
+//                       controller: lastNameController,
+//                       decoration: InputDecoration(
+//                         labelText: 'Last Name',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         if (value == null || value.isEmpty) {
+//                           return 'Please enter your last name';
+//                         }
+//                         return null;
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//                     TextFormField(
+//                       controller: contactNoController,
+//                       keyboardType: TextInputType.phone,
+//                       maxLength: 10,
+//                       decoration: InputDecoration(
+//                         labelText: 'Contact No',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         if (value == null || value.isEmpty) {
+//                           return 'Please enter your contact number';
+//                         }
+//                         return null;
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//                     TextFormField(
+//                       controller: addressController,
+//                       decoration: InputDecoration(
+//                         labelText: 'Address',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         // Add validation logic for address if required
+//                         return null;
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//
+//                     CustomDateTime(
+//                       controller: _dob,
+//                       onPressed: () async {
+//                         DateTime? pickedDate = await showDatePicker(
+//                             context: context,
+//                             initialDate: DateTime.now(),
+//                             firstDate: DateTime(
+//                                 2000), //DateTime.now() - not to allow to choose before today.
+//                             lastDate: DateTime(2028));
+//                         DateFormat date = DateFormat(
+//                             "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//                         FocusScope.of(context)
+//                             .requestFocus(new FocusNode());
+//                         validator:
+//                             (value) {
+//                           if (value == null || value.isEmpty) {
+//                             return "Date is required";
+//                           }
+//                           return null;
+//                         };
+//                         if (pickedDate != null) {
+//                           print(pickedDate);
+//                           String formattedDate =
+//                           DateFormat('yyyy-MM-dd')
+//                               .format(pickedDate);
+//                           print(formattedDate);
+//                           setState(() {
+//                             _dob.text = formattedDate;
+//                           });
+//                         } else {
+//                           print("Date is not selected");
+//                         }
+//                       },
+//                     ),
+//                     SizedBox(height: 16.0),
+//                     DropdownButtonFormField<String>(
+//                       value: selectedGender,
+//                       onChanged: (value) {
+//                         setState(() {
+//                           selectedGender = value;
+//                         });
+//                       },
+//                       decoration: InputDecoration(
+//                         labelText: 'Gender',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       items: ['Male', 'Female', 'Other'].map((gender) {
+//                         return DropdownMenuItem<String>(
+//                           value: gender,
+//                           child: Text(gender),
+//                         );
+//                       }).toList(),
+//                     ),
+//
+//                     SizedBox(height: 16.0),
+//                     TextFormField(
+//                       controller: rescuedepartmentController,
+//                       decoration: InputDecoration(
+//                         labelText: 'Rescue Department',
+//                         floatingLabelStyle: TextStyle(
+//                           color: CustomTheme.blue,
+//                         ),
+//                         filled: true,
+//                         fillColor: Colors.grey[200],
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8.0),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                       ),
+//                       validator: (value) {
+//                         if (value!.isEmpty) {
+//                           return 'Please enter a rescue department.';
+//                         }
+//                         return null;
+//                       },
+//                     ),
+//
+//
+//                     SizedBox(height: 16.0),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         if (form.currentState!.validate()) {
+//                           _saveTeamMember();
+//                         }
+//                       },
+//                       child: Text('SaveTeam Member'),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-import '../../custom/theme.dart';
 
 class AddTeam extends StatefulWidget {
-  const AddTeam({Key? key}) : super(key: key);
+  final VoidCallback? onTeamMemberAdded;
+
+  const AddTeam({Key? key, this.onTeamMemberAdded}) : super(key: key);
 
   @override
   State<AddTeam> createState() => _AddTeamState();
 }
 
 class _AddTeamState extends State<AddTeam> {
-  XFile? image;
-  final ImagePicker picker = ImagePicker();
   final form = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController rescueDepartmentController = TextEditingController();
-  String? _errorMessage;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController middleNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController contactNoController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController _dob = TextEditingController();
+  TextEditingController rescuedepartmentController = TextEditingController();
+  String? selectedGender;
 
-  Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-
-    setState(() {
-      image = img;
-    });
+  @override
+  void initState() {
+    _dob.text = ""; // Set the initial value of the text field
+    super.initState();
   }
 
-  Future<void> _saveProfile() async {
+  Future<void> _saveTeamMember() async {
     try {
-      // Initialize Firebase (if not already initialized)
-      if (Firebase.apps.isEmpty) {
-        await Firebase.initializeApp();
-      }
-
       // Get a reference to the Firestore collection
       CollectionReference usersCollection =
-          FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
 
-      // Create a new user document
-      DocumentReference newUserRef = await usersCollection.add({
-        'name': nameController.text,
-        'email': emailController.text,
-        'phone': phoneNumberController.text,
+      // Create a new user document with contactNo as the document ID
+      await usersCollection.doc(contactNoController.text).set({
+        'firstName': firstNameController.text,
+        'middleName': middleNameController.text,
+        'lastName': lastNameController.text,
+        'contactNo': contactNoController.text,
+        'address': addressController.text,
+        'dob': _dob.text,
+        'gender': selectedGender,
+        'role': 'Rescue',
+        'rescueDepartment': rescuedepartmentController.text,
       });
 
       // Show success dialog
@@ -57,7 +380,29 @@ class _AddTeamState extends State<AddTeam> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Success'),
-            content: Text('User created successfully'),
+            content: Text('Team member added successfully'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  // Call the callback function to update the team list
+                  widget.onTeamMemberAdded?.call();
+                  Navigator.of(context).pop();
+                  Navigator.pop(context); // Pop the AddTeam screen
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to add team member'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -67,10 +412,6 @@ class _AddTeamState extends State<AddTeam> {
           );
         },
       );
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Failed to create user';
-      });
     }
   }
 
@@ -81,7 +422,7 @@ class _AddTeamState extends State<AddTeam> {
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
-        title: Text('Add members'),
+        title: Text('Add Team Member'),
         backgroundColor: CustomTheme.backgroundColor,
         foregroundColor: CustomTheme.blue,
       ),
@@ -91,51 +432,14 @@ class _AddTeamState extends State<AddTeam> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 10.0),
-              Center(
-                child: CircleAvatar(
-                  radius: 80.0,
-                  backgroundColor: Colors.grey,
-                  backgroundImage:
-                      image != null ? FileImage(File(image!.path)) : null,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  getImage(ImageSource.gallery);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.camera_alt,
-                      color: CustomTheme.blue,
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      'Add Photo',
-                      style: TextStyle(
-                        color: CustomTheme.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30.0),
               Form(
                 key: form,
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: nameController,
+                      controller: firstNameController,
                       decoration: InputDecoration(
-                        labelText: 'Name',
-                        floatingLabelStyle: TextStyle(
-                          color: CustomTheme.blue,
-                        ),
+                        labelText: 'First Name',
                         filled: true,
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
@@ -145,19 +449,33 @@ class _AddTeamState extends State<AddTeam> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a name';
+                          return 'Please enter your first name';
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
-                      controller: emailController,
+                      controller: middleNameController,
                       decoration: InputDecoration(
-                        labelText: 'Email',
-                        floatingLabelStyle: TextStyle(
-                          color: CustomTheme.blue,
+                        labelText: 'Middle Name',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
                         ),
+                      ),
+                      validator: (value) {
+                        // Add validation logic for middle name if required
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: lastNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Last Name',
                         filled: true,
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
@@ -167,19 +485,18 @@ class _AddTeamState extends State<AddTeam> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter an email';
+                          return 'Please enter your last name';
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(
-                      controller: phoneNumberController,
+                      controller: contactNoController,
+                      keyboardType: TextInputType.phone,
+                      maxLength: 10,
                       decoration: InputDecoration(
-                        labelText: 'Phone Number',
-                        floatingLabelStyle: TextStyle(
-                          color: CustomTheme.blue,
-                        ),
+                        labelText: 'Contact No',
                         filled: true,
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
@@ -189,25 +506,106 @@ class _AddTeamState extends State<AddTeam> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a phone number';
+                          return 'Please enter your contact number';
                         }
                         return null;
                       },
                     ),
+                    SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: addressController,
+                      decoration: InputDecoration(
+                        labelText: 'Address',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (value) {
+                        // Add validation logic for address if required
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    CustomDateTime(
+                      controller: _dob,
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2028),
+                        );
+                        DateFormat date = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                        if (pickedDate != null) {
+                          print(pickedDate);
+                          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                          print(formattedDate);
+                          setState(() {
+                            _dob.text = formattedDate;
+                          });
+                        } else {
+                          print("Date is not selected");
+                        }
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    DropdownButtonFormField<String>(
+                      value: selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedGender = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Gender',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      items: ['Male', 'Female', 'Other'].map((gender) {
+                        return DropdownMenuItem<String>(
+                          value: gender,
+                          child: Text(gender),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: rescuedepartmentController,
+                      decoration: InputDecoration(
+                        labelText: 'Rescue Department',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a rescue department.';
+                        }
+                        return null;
+                      },
+                    ),
+
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
                         if (form.currentState!.validate()) {
-                          _saveProfile();
+                          _saveTeamMember();
                         }
                       },
-                      child: Text('Save Profile'),
+                      child: Text('Save Team Member'),
                     ),
-                    if (_errorMessage != null)
-                      Text(
-                        _errorMessage!,
-                        style: TextStyle(color: Colors.red),
-                      ),
                   ],
                 ),
               ),
@@ -218,194 +616,3 @@ class _AddTeamState extends State<AddTeam> {
     );
   }
 }
-
-
-// import 'dart:io';
-
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-
-// import '../../custom/theme.dart';
-
-// class AddTeam extends StatefulWidget {
-//   const AddTeam({super.key});
-
-//   @override
-//   State<AddTeam> createState() => _AddTeamState();
-// }
-
-// class _AddTeamState extends State<AddTeam> {
-//   XFile? image;
-
-//   final ImagePicker picker = ImagePicker();
-
-//   final form = GlobalKey<FormState>();
-//   TextEditingController emailController = TextEditingController();
-//   TextEditingController nameController = TextEditingController();
-//   TextEditingController phonenumberController = TextEditingController();
-//   TextEditingController rescuedepartmentController = TextEditingController();
-//   String? _errormessage;
-
-//   Future getImage(ImageSource media) async {
-//     var img = await picker.pickImage(source: media);
-
-//     setState(() {
-//       image = img;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: CustomTheme.backgroundColor,
-//       appBar: AppBar(
-//         elevation: 0.0,
-//         centerTitle: true,
-//         title: Text('Add members'),
-//         backgroundColor: CustomTheme.backgroundColor,
-//         foregroundColor: CustomTheme.blue,
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: EdgeInsets.all(16.0),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.stretch,
-//             children: [
-//               SizedBox(height: 10.0),
-//               Center(
-//                 child: CircleAvatar(
-//                   radius: 80.0,
-//                   backgroundColor: Colors.grey,
-//                   // Replace with the actual image widget or load image from network
-//                   // backgroundImage: AssetImage('assets/images/profile_image.jpg'),
-//                 ),
-//               ),
-//               SizedBox(height: 10.0),
-//               GestureDetector(
-//                 onTap: () {
-//                   Navigator.pop(context);
-//                   getImage(ImageSource.gallery);
-//                   // Open photo picker or camera to choose/update profile photo
-//                 },
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     Icon(
-//                       Icons.camera_alt,
-//                       color: CustomTheme.blue,
-//                     ),
-//                     SizedBox(width: 8.0),
-//                     Text(
-//                       'Add Photo',
-//                       style: TextStyle(
-//                         color: CustomTheme.blue,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                     image != null
-//                         ? Padding(
-//                             padding: const EdgeInsets.symmetric(horizontal: 20),
-//                             child: ClipRRect(
-//                               borderRadius: BorderRadius.circular(8),
-//                               child: Image.file(
-//                                 //to show image, you type like this.
-//                                 File(image!.path),
-//                                 fit: BoxFit.cover,
-//                                 width: MediaQuery.of(context).size.width,
-//                                 height: 300,
-//                               ),
-//                             ),
-//                           )
-//                         : Text(
-//                             ".",
-//                             style: TextStyle(fontSize: 20),
-//                           )
-//                   ],
-//                 ),
-//               ),
-//               SizedBox(height: 30.0),
-//               TextFormField(
-//                 decoration: InputDecoration(
-//                   labelText: 'Name',
-//                   floatingLabelStyle: TextStyle(
-//                     color: CustomTheme.blue,
-//                   ),
-//                   filled: true,
-//                   fillColor: Colors.grey[200],
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(height: 16.0),
-//               TextFormField(
-//                 decoration: InputDecoration(
-//                   labelText: 'Email',
-//                   floatingLabelStyle: TextStyle(
-//                     color: CustomTheme.blue,
-//                   ),
-//                   filled: true,
-//                   fillColor: Colors.grey[200],
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(height: 16.0),
-//               TextFormField(
-//                 decoration: InputDecoration(
-//                   labelText: 'Phone Number',
-//                   floatingLabelStyle: TextStyle(
-//                     color: CustomTheme.blue,
-//                   ),
-//                   filled: true,
-//                   fillColor: Colors.grey[200],
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(height: 16.0),
-//               TextFormField(
-//                 decoration: InputDecoration(
-//                   labelText: 'Rescue Department',
-//                   floatingLabelStyle: TextStyle(
-//                     color: CustomTheme.blue,
-//                   ),
-//                   filled: true,
-//                   fillColor: Colors.grey[200],
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(height: 32.0),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   // Save profile
-//                 },
-//                 child: Text('Save'),
-//                 style: ElevatedButton.styleFrom(
-//                   primary: CustomTheme.blue,
-//                   textStyle: TextStyle(
-//                     color: Colors.white,
-//                     fontSize: 16.0,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                   ),
-//                   padding: EdgeInsets.symmetric(vertical: 16.0),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

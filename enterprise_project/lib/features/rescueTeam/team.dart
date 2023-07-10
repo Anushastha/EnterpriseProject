@@ -17,8 +17,8 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
+    _getCurrentUser();
     _fetchRegisteredUsers();
-    //_getCurrentUser();
   }
 
   Future<void> _getCurrentUser() async {
@@ -37,18 +37,11 @@ class _TeamScreenState extends State<TeamScreen> {
       final String middleName = data['middleName'] as String;
       final String lastName = data['lastName'] as String;
       final String contactNo = doc.id; // Using document ID as contactNo
-      final String rescueDepartment = data['rescueDepartment'] as String;
       final String name =
           '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
-
-      print('Name: $name');
-      print('Contact No: $contactNo');
-      print('Rescue Department: $rescueDepartment');
-
       return UserData(
         name: name,
         contactNo: contactNo,
-        rescueDepartment: rescueDepartment,
       );
     }).toList();
 
@@ -155,7 +148,6 @@ class _TeamScreenState extends State<TeamScreen> {
               itemCount: _registeredUsers.length,
               itemBuilder: (context, index) {
                 final user = _registeredUsers[index];
-<<<<<<< HEAD
                 return ListTile(
                   hoverColor: Colors.grey,
                   leading: CircleAvatar(
@@ -181,13 +173,6 @@ class _TeamScreenState extends State<TeamScreen> {
                         ),
                       ),
                       SizedBox(height: 4.0),
-                      if (user.rescueDepartment != null && user.rescueDepartment!.isNotEmpty) // Conditionally show the rescue department
-                        Text(
-                          'Rescue Department: ${user.rescueDepartment}',
-                          style: TextStyle(
-                            color: CustomTheme.lightText,
-                          ),
-                        ),
                     ],
                   ),
                   trailing: IconButton(
@@ -199,16 +184,9 @@ class _TeamScreenState extends State<TeamScreen> {
                       await _deleteMember(user.contactNo);
                     },
                   ),
-=======
-                return CardItem(
-                  name: user.name,
-                  contactNo: user.contactNo,
-                  image:
-                      'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
->>>>>>> f8c6cdbd1f91612e8a7b22212b78380a3a73bfec
                 );
               },
-            )
+            ),
           ],
         ),
       ),
@@ -219,11 +197,8 @@ class _TeamScreenState extends State<TeamScreen> {
 class UserData {
   final String name;
   final String contactNo;
-  final String? rescueDepartment; // Make rescueDepartment nullable
-
   UserData({
     required this.name,
     required this.contactNo,
-    this.rescueDepartment, // Update the parameter
   });
 }

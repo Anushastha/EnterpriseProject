@@ -547,6 +547,7 @@ class _AddTeamState extends State<AddTeam> {
                           setState(() {
                             _dob.text = formattedDate;
                           });
+
                         } else {
                           print("Date is not selected");
                         }

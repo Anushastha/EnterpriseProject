@@ -64,7 +64,7 @@ class _CustomListTileState extends State<CustomListTile> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0, left: 20),
                     child: Text(widget.title,
                         style: TextStyle(
                           fontSize: 18,

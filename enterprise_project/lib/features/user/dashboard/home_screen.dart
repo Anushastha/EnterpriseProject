@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../custom/icon/custom_icon.dart';
 import '../../../custom/theme.dart';
+import 'find_device.dart';
 import 'health/health_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Screens for each menu option
                   healthScreen(),
                   MapScreen(),
-                  Text("device"),
+                  FindDevice(),
                   Text("profile"),
                 ],
               ),

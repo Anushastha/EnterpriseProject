@@ -178,7 +178,8 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.grey,
                     image: DecorationImage(
-                      image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEZReC1Pu5YrUBFjENhqQNFsI2crcnfBdIw&usqp=CAU'),
+                      image: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEZReC1Pu5YrUBFjENhqQNFsI2crcnfBdIw&usqp=CAU'),
                       fit: BoxFit.cover,
                     ),
                   ),

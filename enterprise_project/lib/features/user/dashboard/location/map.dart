@@ -24,7 +24,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _markers[markerId] = Marker(
       markerId: markerId,

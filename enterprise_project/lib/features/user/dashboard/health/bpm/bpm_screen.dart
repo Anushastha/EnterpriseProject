@@ -1,4 +1,5 @@
 import 'package:enterprise_project/features/user/dashboard/health/bpm/daily_record.dart';
+import 'package:enterprise_project/features/user/dashboard/health/bpm/weekly_record.dart';
 import 'package:flutter/material.dart';
 import '../../../../../custom/theme.dart';
 
@@ -36,22 +37,32 @@ class _BpmScreenState extends State<BpmScreen> with TickerProviderStateMixin {
                 )),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(left: 60, top: 15),
+            padding: const EdgeInsets.only(
+              left: 60,
+              top: 15,
+            ),
             child: Text("BPM Record",
                 style: TextStyle(color: CustomTheme.textColor, fontSize: 20)),
           ),
-          bottom: TabBar(controller: _tabController, tabs: [
-            Text("Today", style: TextStyle(color: Colors.black)),
-            Text("Week", style: TextStyle(color: Colors.black)),
-          ]),
+          bottom: TabBar(
+              controller: _tabController,
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              tabs: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Today", style: TextStyle(color: Colors.black)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Week", style: TextStyle(color: Colors.black)),
+                ),
+              ]),
         ),
         body: TabBarView(
           controller: _tabController,
           children: const <Widget>[
             DailyRecord(),
-            Center(
-              child: Text("It's rainy here"),
-            ),
+            WekklyRecord(),
           ],
         ));
   }

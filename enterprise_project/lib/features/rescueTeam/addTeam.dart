@@ -193,6 +193,47 @@ class _AddTeamState extends State<AddTeam> {
                         } else {
                           print("Date is not selected");
                         }
+<<<<<<< HEAD
+=======
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    // DropdownButtonFormField<String>(
+                    //   value: selectedGender,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       selectedGender = value;
+                    //     });
+                    //   },
+                    //   decoration: InputDecoration(
+                    //     labelText: 'Gender',
+                    //     filled: true,
+                    //     fillColor: Colors.grey[200],
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8.0),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //   ),
+                    //   items: ['Male', 'Female', 'Other'].map((gender) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: gender,
+                    //       child: Text(gender),
+                    //     );
+                    //   }).toList(),
+                    // ),
+                    SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: rescuedepartmentController,
+                      decoration: InputDecoration(
+                        labelText: 'Rescue Department',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+>>>>>>> 0076b3d1238a86a7dd63790f3458b99cee64442e
 
                       },
                     ),

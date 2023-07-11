@@ -24,8 +24,13 @@ class _TeamScreenState extends State<TeamScreen> {
 
 
   Future<void> _getCurrentUser() async {
+<<<<<<< HEAD
     if(FirebaseAuth.instance.currentUser!=null)
     _currentUser = FirebaseAuth.instance.currentUser!;
+=======
+    if (FirebaseAuth.instance.currentUser != null)
+      _currentUser = FirebaseAuth.instance.currentUser!;
+>>>>>>> 0076b3d1238a86a7dd63790f3458b99cee64442e
   }
 
   Future<void> _fetchRegisteredUsers() async {
@@ -79,7 +84,8 @@ class _TeamScreenState extends State<TeamScreen> {
                       .delete();
 
                   setState(() {
-                    _registeredUsers.removeWhere((user) => user.contactNo == contactNo);
+                    _registeredUsers
+                        .removeWhere((user) => user.contactNo == contactNo);
                   });
 
                   ScaffoldMessenger.of(context).showSnackBar(

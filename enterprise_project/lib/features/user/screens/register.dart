@@ -1,22 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:dob_input_field/dob_input_field.dart';
-import 'package:enterprise_project/custom/button/custom_dropdown.dart';
 import 'package:enterprise_project/custom/theme.dart';
 import 'package:enterprise_project/custom/utils/constants.dart';
-import 'package:enterprise_project/features/user/screens/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:provider/provider.dart';
-
 import '../../../custom/button/custom_button.dart';
 import '../../../custom/textfield/custom_dateTime.dart';
 import '../../../custom/textfield/custom_textfield.dart';
-import '../../../model/user_model.dart';
+
 
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({Key? key}) : super(key: key);
@@ -34,12 +27,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
   TextEditingController _dob = TextEditingController();
+  TextEditingController _gender = TextEditingController();
+  TextEditingController _role = TextEditingController();
 
   bool _isLoading = false;
   final form = GlobalKey<FormState>();
-
-  String? _selectedGender;
-  String? _selectedRole;
 
   @override
   void initState() {
@@ -154,6 +146,16 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 SizedBox(
                                   height: 20,
                                 ),
+                                CustomTextField(
+                                  lableText: "Gender",
+                                  controller: _gender,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Gender is required";
+                                    }
+                                    return null;
+                                  },
+                                ),
                                 // CustomDropDown(
                                 //     lableText: "Gender",
                                 //     hint: "Select Gender",
@@ -182,7 +184,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                             2000), //DateTime.now() - not to allow to choose before today.
                                         lastDate: DateTime(2028));
                                     DateFormat date = DateFormat(
-                                        "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                                        "yyyy-MM-dd");
                                     FocusScope.of(context)
                                         .requestFocus(new FocusNode());
                                     validator:
@@ -195,7 +197,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                     if (pickedDate != null) {
                                       print(pickedDate);
                                       String formattedDate =
-                                          DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ')
+                                          DateFormat('yyyy-MM-dd')
                                               .format(pickedDate);
                                       print(formattedDate);
                                       setState(() {
@@ -211,9 +213,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 ),
 
                                 CustomTextField(
-                                  lableText: "Select Role",
+                                  lableText: "Role: User or Rescue",
                                   // hintText: "Rescuer or user",
-                                  controller: _firstName,
+                                  controller: _role,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Role is required";
@@ -290,9 +292,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                     "password": _password.text,
                                     "address": _address.text,
                                     "contactNo": _contact.text,
-                                    "gender": _selectedGender.toString(),
+                                    "gender": _gender.text,
                                     "dob": _dob.text,
-                                    "role": _selectedRole.toString(),
+                                    "role": _role.text,
                                   };
                                   final _response = await _dio
                                       .post(Constants.users, data: _data);

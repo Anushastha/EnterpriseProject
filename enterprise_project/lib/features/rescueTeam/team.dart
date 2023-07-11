@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:enterprise_project/custom/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'addTeam.dart';
 
 class TeamScreen extends StatefulWidget {
@@ -17,11 +16,15 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
-    _fetchRegisteredUsers();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getCurrentUser();
+      _fetchRegisteredUsers();
+    });
   }
 
+
   Future<void> _getCurrentUser() async {
+    if(FirebaseAuth.instance.currentUser!=null)
     _currentUser = FirebaseAuth.instance.currentUser!;
   }
 
@@ -39,9 +42,11 @@ class _TeamScreenState extends State<TeamScreen> {
       final String contactNo = doc.id; // Using document ID as contactNo
       final String name =
           '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
+      final String? rescueDepartment = data['rescueDepartment'] as String?;
       return UserData(
         name: name,
         contactNo: contactNo,
+        rescueDepartment: rescueDepartment,
       );
     }).toList();
 
@@ -89,7 +94,6 @@ class _TeamScreenState extends State<TeamScreen> {
                     ),
                   );
                 }
-
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
@@ -143,49 +147,87 @@ class _TeamScreenState extends State<TeamScreen> {
               ],
             ),
             SizedBox(height: 20.0),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _registeredUsers.length,
-              itemBuilder: (context, index) {
-                final user = _registeredUsers[index];
-                return ListTile(
-                  hoverColor: Colors.grey,
-                  leading: CircleAvatar(
-                    radius: 25.0,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(
-                      'https://hoopshype.com/wp-content/uploads/sites/92/2021/12/i_33_11_09_jayson-tatum.png?w=1000&h=600&crop=1',
-                    ),
-                  ),
-                  title: Text(
-                    user.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _registeredUsers.length,
+                itemBuilder: (context, index) {
+                  final user = _registeredUsers[index];
+                  return Column(
                     children: [
-                      Text(
-                        user.contactNo,
-                        style: TextStyle(
-                          color: CustomTheme.lightText,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2.0,
+                              blurRadius: 1.5,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          tileColor: Colors.transparent, // Remove tileColor from ListTile
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          leading: CircleAvatar(
+                            radius: 25.0,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage(
+                              'https://t4.ftcdn.net/jpg/05/50/60/55/360_F_550605549_PaTP81pjaCsrNTnfUaYlUZ8wmPpQSHY8.jpg',
+                            ),
+                          ),
+                          title: Text(
+                            user.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 4.0),
+                              Text(
+                                user.contactNo,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              if (user.rescueDepartment != null)
+                                SizedBox(height: 4.0),
+                              if (user.rescueDepartment != null)
+                                Text(
+                                  'Department: ${user.rescueDepartment!}',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () async {
+                              await _deleteMember(user.contactNo);
+                            },
+                          ),
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      SizedBox(height: 8.0),
                     ],
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () async {
-                      await _deleteMember(user.contactNo);
-                    },
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -197,8 +239,11 @@ class _TeamScreenState extends State<TeamScreen> {
 class UserData {
   final String name;
   final String contactNo;
+  final String? rescueDepartment;
+
   UserData({
     required this.name,
     required this.contactNo,
+    this.rescueDepartment,
   });
 }

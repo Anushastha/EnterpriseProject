@@ -48,7 +48,7 @@ class _CustomDateTimeState extends State<CustomDateTime> {
                 horizontal: 20,
                 vertical: 13,
               ),
-              // hintText: "Enter dob",
+              hintText: "Date of Birth",
               hintStyle: TextStyle(
                 fontSize: 15,
                 color: CustomTheme.lightText,

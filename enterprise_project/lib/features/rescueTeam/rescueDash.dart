@@ -41,13 +41,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.sos),
-            color: Colors.black,
-            onPressed: () {
-              // Handle Location button pressed
-            },
-          ),
-          IconButton(
             icon: Icon(Icons.location_on),
             color: Colors.black,
             onPressed: () {

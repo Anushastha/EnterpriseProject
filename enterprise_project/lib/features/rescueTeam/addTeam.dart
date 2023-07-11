@@ -554,29 +554,29 @@ class _AddTeamState extends State<AddTeam> {
                       },
                     ),
                     SizedBox(height: 16.0),
-                    DropdownButtonFormField<String>(
-                      value: selectedGender,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedGender = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Gender',
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      items: ['Male', 'Female', 'Other'].map((gender) {
-                        return DropdownMenuItem<String>(
-                          value: gender,
-                          child: Text(gender),
-                        );
-                      }).toList(),
-                    ),
+                    // DropdownButtonFormField<String>(
+                    //   value: selectedGender,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       selectedGender = value;
+                    //     });
+                    //   },
+                    //   decoration: InputDecoration(
+                    //     labelText: 'Gender',
+                    //     filled: true,
+                    //     fillColor: Colors.grey[200],
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8.0),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //   ),
+                    //   items: ['Male', 'Female', 'Other'].map((gender) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: gender,
+                    //       child: Text(gender),
+                    //     );
+                    //   }).toList(),
+                    // ),
                     SizedBox(height: 16.0),
                     TextFormField(
                       controller: rescuedepartmentController,

@@ -17,12 +17,15 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
-    _fetchRegisteredUsers();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getCurrentUser();
+      _fetchRegisteredUsers();
+    });
   }
 
   Future<void> _getCurrentUser() async {
-    _currentUser = FirebaseAuth.instance.currentUser!;
+    if (FirebaseAuth.instance.currentUser != null)
+      _currentUser = FirebaseAuth.instance.currentUser!;
   }
 
   Future<void> _fetchRegisteredUsers() async {
@@ -74,7 +77,8 @@ class _TeamScreenState extends State<TeamScreen> {
                       .delete();
 
                   setState(() {
-                    _registeredUsers.removeWhere((user) => user.contactNo == contactNo);
+                    _registeredUsers
+                        .removeWhere((user) => user.contactNo == contactNo);
                   });
 
                   ScaffoldMessenger.of(context).showSnackBar(

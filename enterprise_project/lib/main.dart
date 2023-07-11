@@ -1,5 +1,5 @@
 import 'package:enterprise_project/features/rescueTeam/alert.dart';
-import 'package:enterprise_project/features/rescueTeam/data.dart';
+
 import 'package:enterprise_project/features/user/dashboard/health/health_screen.dart';
 import 'package:enterprise_project/features/rescueTeam/addTeam.dart';
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
         "/addteam": (BuildContext context) => AddTeam(),
         "/rescueDashboard": (BuildContext context) => DashboardScreen(),
         "/bpm": (BuildContext context) => BpmScreen(),
-        "/data": (BuildContext context) => DataScreen(),
         "/alert": (BuildContext context) => AlertScreen(),
       },
     );

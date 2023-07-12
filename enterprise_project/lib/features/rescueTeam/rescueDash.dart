@@ -1,8 +1,10 @@
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
+import 'package:enterprise_project/features/rescueTeam/map.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../custom/theme.dart';
+import '../user/dashboard/location/map.dart';
 import 'Rescueprofile.dart';
 import 'alert.dart';
 import 'chats.dart';
@@ -44,7 +46,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: Icon(Icons.location_on),
             color: Colors.black,
             onPressed: () {
-              // Handle Location button pressed
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RescueMapScreen(),
+              ),
+              );
             },
           ),
         ],

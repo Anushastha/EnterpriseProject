@@ -153,27 +153,15 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                     if (value == null || value.isEmpty) {
                                       return "Gender is required";
                                     }
+                                    if (!(value == 'male' || value == 'Male' ||
+                                        value == 'female' || value == 'Female' ||
+                                        value == 'others' || value == 'Others')) {
+                                      return "Invalid gender";
+                                    }
                                     return null;
                                   },
                                 ),
-                                // CustomDropDown(
-                                //     lableText: "Gender",
-                                //     hint: "Select Gender",
-                                //     dropdownItems: ['Male', 'Female', 'Others'],
-                                //     validator: (value) {
-                                //       if (value == null || value.isEmpty) {
-                                //         return "Gender is required";
-                                //       }
-                                //       return null;
-                                //     },
-                                //     onChanged: (value) {
-                                //       setState(() {
-                                //         _selectedGender = value;
-                                //       });
-                                //     }),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 CustomDateTime(
                                   controller: _dob,
                                   onPressed: () async {
@@ -211,7 +199,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 SizedBox(
                                   height: 20,
                                 ),
-
                                 CustomTextField(
                                   lableText: "Role: User or Rescue",
                                   // hintText: "Rescuer or user",
@@ -223,22 +210,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                     return null;
                                   },
                                 ),
-
-                                // CustomDropDown(
-                                //     lableText: "Role",
-                                //     hint: "Select role",
-                                //     dropdownItems: ['User', 'Rescue'],
-                                //     validator: (value) {
-                                //       if (value == null || value.isEmpty) {
-                                //         return "Role is required";
-                                //       }
-                                //       return null;
-                                //     },
-                                //     onChanged: (value) {
-                                //       setState(() {
-                                //         _selectedRole = value;
-                                //       });
-                                //     }),
                                 CustomTextField(
                                   lableText: "Password",
                                   // hintText: "Password",

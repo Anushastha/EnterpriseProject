@@ -1,4 +1,6 @@
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:telephony/telephony.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _scaffoldKey.currentState?.openDrawer();
   }
 
+  void _makeEmergencyCall() async {
+    const emergencyNumber =
+        '9849475929'; // Replace with your country's emergency number
+    final url = 'tel:$emergencyNumber';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Unable to Dial'),
+            content: Text('Your device cannot make phone calls.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +71,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.location_on),
+            icon: Icon(Icons.call),
             color: Colors.black,
             onPressed: () {
-              // Handle Location button pressed
+              _makeEmergencyCall();
             },
           ),
         ],
@@ -160,6 +190,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
+class EmergencyCallDialog extends StatelessWidget {
+  final String emergencyNumber;
+
+  const EmergencyCallDialog({Key? key, required this.emergencyNumber})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Telephony telephony = Telephony.instance;
+
+    return AlertDialog(
+      title: Text('Emergency Call'),
+      content: Text(
+          'Are you sure you want to make an emergency call to $emergencyNumber?'),
+      actions: [
+        TextButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: Text('Call'),
+          onPressed: () async {
+            await telephony.openDialer(emergencyNumber);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
 void main() {
-  runApp(DashboardScreen());
+  runApp(MaterialApp(
+    home: DashboardScreen(),
+  ));
 }

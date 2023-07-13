@@ -7,8 +7,9 @@
     <list default="true" id="c299082b-9f67-4091-b765-fa7366b86e94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/rescueDash.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/rescueDash.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/user/screens/register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/user/screens/register.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/alert.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/alert.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/map.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/map.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

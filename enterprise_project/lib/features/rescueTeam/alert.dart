@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enterprise_project/features/rescueTeam/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,6 @@ class _AlertScreenState extends State<AlertScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
             Text(
               'Rescue Alerts',
               style: TextStyle(
@@ -167,7 +167,12 @@ class _AlertScreenState extends State<AlertScreen> {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          // Handle location button press
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                              builder: (context) => RescueMapScreen(),
+                                          ),
+                                          );
                                         },
                                         icon: Icon(Icons.location_on),
                                       ),
@@ -175,6 +180,7 @@ class _AlertScreenState extends State<AlertScreen> {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: 10.0),
                             ],
                           );
                         },

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class RescueMapScreen extends StatefulWidget {
   @override
@@ -12,12 +14,14 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
   double? latitude;
   double? longitude;
   List<Map<String, dynamic>> sensorData = [];
-
+  GoogleMapController? _mapController;
+  Set<Marker> markers = {};
 
   @override
   void initState() {
     super.initState();
     initializeFirebase();
+
   }
 
   Future<void> initializeFirebase() async {
@@ -30,10 +34,7 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
       if (data != null) {
         setState(() {
           latitude = double.parse(data.toString());
-          sensorData.add({
-            'timestamp': DateTime.now(),
-            'latitude': latitude,
-          });
+          addToSensorData();
         });
       }
     });
@@ -43,16 +44,20 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
       if (data != null) {
         setState(() {
           longitude = double.parse(data.toString());
-          sensorData.add({
-            'timestamp': DateTime.now(),
-            'longitude': longitude,
-          });
+          addToSensorData();
         });
       }
     });
   }
 
-
+  void addToSensorData() {
+    if (latitude != null && longitude != null) {
+      sensorData.add({
+        'latitude': latitude,
+        'longitude': longitude,
+      });
+    }
+  }
 
   void showNotification(String? title, String? body) {
     showDialog(
@@ -70,95 +75,72 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
     );
   }
 
+  void onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    if (latitude != null && longitude != null) {
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(
+          LatLng(latitude!, longitude!),
+          15.0,
+        ),
+      );
+    }
+  }
+
+  void zoomInOnMarker(MarkerId markerId) {
+    final marker = markers.firstWhere((marker) => marker.markerId == markerId);
+    if (marker != null) {
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(marker.position, 16.0),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    markers = {
+      Marker(
+        markerId: MarkerId('currentLocation'),
+        position: LatLng(latitude!, longitude!),
+        icon: BitmapDescriptor.defaultMarker,
+        onTap: () => zoomInOnMarker(MarkerId('currentLocation')),
+      ),
+    };
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Maps'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        title: Column(
           children: [
             Text(
               'Latitude: ${latitude ?? 'N/A'}',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
             Text(
               'Longitude: ${longitude ?? 'N/A'}',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'History',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: Card(
-                elevation: 4,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columnSpacing: 20,
-                    headingRowHeight: 40,
-                    dataRowHeight: 56,
-                    horizontalMargin: 12,
-                    headingTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    dataTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                    ),
-                    columns: [
-                      DataColumn(label: Text('Timestamp')),
-                      DataColumn(label: Text('Latitude')),
-                      DataColumn(label: Text('Longitude')),
-                    ],
-                    rows: sensorData
-                        .map(
-                          (data) => DataRow(
-                        cells: [
-                          DataCell(
-                            Text(data['timestamp'].toString()),
-                          ),
-                          DataCell(
-                            Text(
-                              '${data['latitude'] ?? 'N/A'}',
-                            ),
-                          ),
-                          DataCell(
-                            Text(
-                              '${data['longitude'] ?? 'N/A'}',
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                        .toList(),
-                  ),
-                ),
               ),
             ),
           ],
         ),
+        centerTitle: true,
+      ),
+      body: GoogleMap(
+        onMapCreated: onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(latitude?? 0.0, longitude?? 0.0),
+          zoom: 15.0,
+        ),
+        markers: markers,
       ),
     );
   }
 }
+
 
 // import 'package:flutter/material.dart';
 // import 'package:firebase_core/firebase_core.dart';

@@ -44,7 +44,7 @@ class _CustomListTileState extends State<CustomListTile> {
             color: widget.cardColor,
             borderRadius: BorderRadius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10, left: 15),
+          padding: const EdgeInsets.only(top: 10, left: 15),
           child: Row(
             children: [
               Container(
@@ -56,7 +56,7 @@ class _CustomListTileState extends State<CustomListTile> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 12),
                     child: CustomIcon(
-                      icon: Icons.bloodtype_outlined,
+                      icon: widget.icon,
                       iconColor: Colors.white,
                       iconSize: 30,
                     )),

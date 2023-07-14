@@ -49,8 +49,8 @@ class _WekklyRecordState extends State<WekklyRecord> {
                           borderWidth: 0),
                       series: <ChartSeries>[
                         SplineAreaSeries<BpmData, String>(
-                          color: CustomTheme.red.withOpacity(0.2),
-                          borderColor: CustomTheme.red,
+                          color: CustomTheme.green.withOpacity(0.2),
+                          borderColor: CustomTheme.green,
                           borderWidth: 2,
                           // Bind data source
                           dataSource: <BpmData>[
@@ -66,7 +66,7 @@ class _WekklyRecordState extends State<WekklyRecord> {
                           yValueMapper: (BpmData sales, _) => sales.bpm,
                         ),
                         SplineSeries<BpmData, String>(
-                          color: CustomTheme.red,
+                          color: CustomTheme.green,
                           // Bind data source
                           dataSource: <BpmData>[
                             BpmData('Sun', 80),

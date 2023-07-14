@@ -1,4 +1,5 @@
-import 'package:enterprise_project/custom/icon/custom_icon.dart';
+import 'dart:ffi';
+
 import 'package:enterprise_project/custom/list/health_list.dart';
 import 'package:enterprise_project/features/user/dashboard/health/steps.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -27,6 +28,8 @@ class _healthScreenState extends State<healthScreen> {
       _database.child('DHT Sensor').set(_isButtonOn ? 1 : 0);
     });
   }
+
+  late final _sensorDatabase = FirebaseDatabase.instance.ref().onValue;
 
   @override
   Widget build(BuildContext context) {
@@ -79,43 +82,98 @@ class _healthScreenState extends State<healthScreen> {
       ),
       body: Container(
         color: CustomTheme.backgroundColor,
+        width: double.infinity,
         child: Row(
           children: [
             Container(
               child: Column(
                 children: [
                   StepsScreen(),
-                  CustomListTile(
-                      cardColor: CustomTheme.lightBlue,
-                      iconBoxColor: CustomTheme.blue,
-                      icon: Icons.bloodtype_outlined,
-                      title: "120/80 mmHg",
-                      titleColor: CustomTheme.blue,
-                      subTitle: "Blood Pressure",
-                      subTitleColor: CustomTheme.textColor,
-                      date: "3/08/2023"),
-                  CustomListTile(
-                    cardColor: CustomTheme.lightRed,
-                    iconBoxColor: CustomTheme.red,
-                    icon: Icons.monitor_heart_outlined,
-                    title: "98 Bpm",
-                    titleColor: CustomTheme.red,
-                    subTitle: "Heart Rate",
-                    subTitleColor: CustomTheme.textColor,
-                    date: "3/08/2023",
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/bpm");
-                    },
+                  Expanded(
+                    child: Container(
+                      child: SingleChildScrollView(
+                        child: StreamBuilder(
+                            stream: _sensorDatabase,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                final data =
+                                    snapshot.data?.snapshot.value as Map?;
+                                if (data == null) {
+                                  return Text('No Sensor data');
+                                }
+                                final BPM = data['BPM'];
+                                final heartBeat = data['Heartbeat'];
+                                final Temperature = data['Temperature'];
+                                final SpO2 = data['SPO2'];
+                                print("bpm : $BPM");
+                                print("temperature : $Temperature");
+
+                                return Column(
+                                  children: [
+                                    CustomListTile(
+                                      cardColor: CustomTheme.lightRed,
+                                      iconBoxColor: CustomTheme.red,
+                                      icon: Icons.monitor_heart_outlined,
+                                      title: "$heartBeat BPM",
+                                      titleColor: CustomTheme.red,
+                                      subTitle: "Heartbeat",
+                                      subTitleColor: CustomTheme.textColor,
+                                      date: "3/08/2023",
+                                      onPressed: () {
+                                        Navigator.of(context).pushNamed("/bpm");
+                                      },
+                                    ),
+                                    CustomListTile(
+                                      cardColor: CustomTheme.lightBlue,
+                                      iconBoxColor: CustomTheme.blue,
+                                      icon: Icons.spa_outlined,
+                                      title: "$SpO2 SpO2",
+                                      titleColor: CustomTheme.blue,
+                                      subTitle: "Oxygen Level",
+                                      subTitleColor: CustomTheme.textColor,
+                                      date: "3/08/2023",
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pushNamed("/spO2");
+                                      },
+                                    ),
+                                    CustomListTile(
+                                      cardColor: CustomTheme.lightGreen,
+                                      iconBoxColor: CustomTheme.green,
+                                      icon: Icons.thermostat_auto_rounded,
+                                      title: "$Temperature C",
+                                      titleColor: CustomTheme.green,
+                                      subTitle: "Tempearature",
+                                      subTitleColor: CustomTheme.textColor,
+                                      date: "3/08/2023",
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pushNamed("/temperature");
+                                      },
+                                    ),
+                                    CustomListTile(
+                                      cardColor: CustomTheme.lightRed,
+                                      iconBoxColor: CustomTheme.red,
+                                      icon: Icons.bloodtype_outlined,
+                                      title: "$BPM BPM",
+                                      titleColor: CustomTheme.red,
+                                      subTitle: "BPM",
+                                      subTitleColor: CustomTheme.textColor,
+                                      date: "3/08/2023",
+                                    ),
+                                  ],
+                                );
+                              }
+                              if (snapshot.hasError) {
+                                print(snapshot.error.toString());
+                                return Text(snapshot.error.toString());
+                              }
+
+                              return Text('....');
+                            }),
+                      ),
+                    ),
                   ),
-                  CustomListTile(
-                      cardColor: CustomTheme.lightGreen,
-                      iconBoxColor: CustomTheme.green,
-                      icon: Icons.health_and_safety,
-                      title: "96 Spo2",
-                      titleColor: CustomTheme.green,
-                      subTitle: "Oxygen Level",
-                      subTitleColor: CustomTheme.textColor,
-                      date: "3/08/2023"),
                 ],
               ),
             ),

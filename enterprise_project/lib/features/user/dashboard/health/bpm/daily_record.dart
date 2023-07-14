@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../../../../custom/list/Custom_recordCard.dart';
+import '../../../../../custom/list/custom_recordCard.dart';
 import '../../../../../custom/theme.dart';
 
 class DailyRecord extends StatefulWidget {

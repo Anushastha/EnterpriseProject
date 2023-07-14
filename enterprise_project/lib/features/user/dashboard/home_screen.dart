@@ -1,7 +1,6 @@
 import 'package:enterprise_project/features/user/dashboard/location/map.dart';
 import 'package:flutter/material.dart';
 
-import '../../../custom/icon/custom_icon.dart';
 import '../../../custom/theme.dart';
 import 'find_device.dart';
 import 'health/health_screen.dart';
@@ -70,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Device',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
         ],
       ),

@@ -4,14 +4,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../../custom/list/custom_recordCard.dart';
 import '../../../../../custom/theme.dart';
 
-class WekklyRecord extends StatefulWidget {
-  const WekklyRecord({super.key});
+class DailyRecord extends StatefulWidget {
+  const DailyRecord({super.key});
 
   @override
-  State<WekklyRecord> createState() => _WekklyRecordState();
+  State<DailyRecord> createState() => _DailyRecordState();
 }
 
-class _WekklyRecordState extends State<WekklyRecord> {
+class _DailyRecordState extends State<DailyRecord> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,9 +31,9 @@ class _WekklyRecordState extends State<WekklyRecord> {
                 children: [
                   CustomRecordCard(
                     cardColor: Colors.white,
-                    min: "55",
-                    avg: "70",
-                    max: "96",
+                    min: "60",
+                    avg: "90",
+                    max: "130",
                   ),
                   SizedBox(height: 10),
                   SfCartesianChart(
@@ -49,33 +49,37 @@ class _WekklyRecordState extends State<WekklyRecord> {
                           borderWidth: 0),
                       series: <ChartSeries>[
                         SplineAreaSeries<BpmData, String>(
-                          color: CustomTheme.red.withOpacity(0.2),
-                          borderColor: CustomTheme.red,
+                          color: CustomTheme.blue.withOpacity(0.2),
+                          borderColor: CustomTheme.blue,
                           borderWidth: 2,
                           // Bind data source
                           dataSource: <BpmData>[
-                            BpmData('Sun', 80),
-                            BpmData('Mon', 60),
-                            BpmData('Tue', 70),
-                            BpmData('Wed', 90),
-                            BpmData('Thu', 55),
-                            BpmData('Fri', 90),
-                            BpmData('Sat', 70),
+                            BpmData('0', 80),
+                            BpmData('3', 60),
+                            BpmData('6', 70),
+                            BpmData('9', 90),
+                            BpmData('12', 55),
+                            BpmData('15', 90),
+                            BpmData('18', 70),
+                            BpmData('21', 70),
+                            BpmData('24', 70),
                           ],
                           xValueMapper: (BpmData sales, _) => sales.hour,
                           yValueMapper: (BpmData sales, _) => sales.bpm,
                         ),
                         SplineSeries<BpmData, String>(
-                          color: CustomTheme.red,
+                          color: CustomTheme.blue,
                           // Bind data source
                           dataSource: <BpmData>[
-                            BpmData('Sun', 80),
-                            BpmData('Mon', 60),
-                            BpmData('Tue', 70),
-                            BpmData('Wed', 90),
-                            BpmData('Thu', 55),
-                            BpmData('Fri', 90),
-                            BpmData('Sat', 70),
+                            BpmData('0', 80),
+                            BpmData('3', 60),
+                            BpmData('6', 70),
+                            BpmData('9', 90),
+                            BpmData('12', 55),
+                            BpmData('15', 90),
+                            BpmData('18', 70),
+                            BpmData('21', 70),
+                            BpmData('24', 70)
                           ],
                           xValueMapper: (BpmData sales, _) => sales.hour,
                           yValueMapper: (BpmData sales, _) => sales.bpm,

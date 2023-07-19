@@ -69,7 +69,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text('Log Out'),
-                  content: Text('Are you sure you want to log out?'),
+                  content:
+                      Text('Are you sure you want to log out?'), //confirmation
                   actions: [
                     TextButton(
                       child: Text('Cancel'),

@@ -157,6 +157,7 @@ class _AlertScreenState extends State<AlertScreen> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
+                                      color: user.isAlerted ? Colors.red : null,
                                     ),
                                   ),
                                   subtitle: Row(
@@ -235,6 +236,7 @@ class UserData {
   final int heartbeat;
   final int stress;
   final double temperature;
+  bool isAlerted;
 
   UserData({
     required this.name,
@@ -242,5 +244,6 @@ class UserData {
     required this.heartbeat,
     required this.stress,
     required this.temperature,
+    this.isAlerted = false,
   });
 }

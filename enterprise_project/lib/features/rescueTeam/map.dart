@@ -21,7 +21,6 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
   void initState() {
     super.initState();
     initializeFirebase();
-
   }
 
   Future<void> initializeFirebase() async {
@@ -98,14 +97,20 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    markers = {
-      Marker(
+    if (latitude != null && longitude != null) {
+      final marker1 = Marker(
         markerId: MarkerId('currentLocation'),
         position: LatLng(latitude!, longitude!),
         icon: BitmapDescriptor.defaultMarker,
         onTap: () => zoomInOnMarker(MarkerId('currentLocation')),
-      ),
-    };
+      );
+      markers = {
+        marker1,
+      };
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(marker1.position, 16.0),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +137,7 @@ class _RescueMapScreenState extends State<RescueMapScreen> {
       body: GoogleMap(
         onMapCreated: onMapCreated,
         initialCameraPosition: CameraPosition(
-          target: LatLng(latitude?? 0.0, longitude?? 0.0),
+          target: LatLng(latitude ?? 0.0, longitude ?? 0.0),
           zoom: 15.0,
         ),
         markers: markers,

@@ -1,4 +1,3 @@
-import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:telephony/telephony.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
@@ -17,6 +16,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late User user;
 
   void _onTabTapped(int index) {
     setState(() {
@@ -24,13 +24,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void _openDrawer() {
-    _scaffoldKey.currentState?.openDrawer();
-  }
-
   void _makeEmergencyCall() async {
     const emergencyNumber =
-        '9849475929'; // Replace with your country's emergency number
+        '9841588085'; // Replace with your country's emergency number
     final url = 'tel:$emergencyNumber';
 
     if (await canLaunch(url)) {
@@ -65,9 +61,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
         elevation: 0.0,
         backgroundColor: CustomTheme.backgroundColor,
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.logout),
           color: Colors.black,
-          onPressed: _openDrawer,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Log Out'),
+                  content: Text('Are you sure you want to log out?'),
+                  actions: [
+                    TextButton(
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                    ),
+                    TextButton(
+                      child: Text('Log Out'),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacementNamed(
+                            context, '/login'); // Navigate to the login screen
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+            child:
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 24.0),
+                Expanded(
+                  child: IndexedStack(
+                    index: _currentIndex,
+                    children: [
+                      // Screens for each menu option
+                      Profile(),
+                      AlertScreen(),
+                      TeamScreen(),
+                      Chats(),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         actions: [
           IconButton(
@@ -78,67 +120,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             },
           ),
         ],
-      ),
-      drawerEnableOpenDragGesture: false,
-      drawer: Drawer(
-        surfaceTintColor: CustomTheme.blue,
-        // Drawer content
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: CustomTheme.blue,
-              ),
-              child: Text(
-                'Signed in as: ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Personal Info'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Log Out'),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Log Out'),
-                      content: Text('Are you sure you want to log out?'),
-                      actions: [
-                        TextButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                        ),
-                        TextButton(
-                          child: Text('Log Out'),
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.pushReplacementNamed(context,
-                                '/login'); // Navigate to the login screen
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: Container(
         padding: EdgeInsets.all(5.0),

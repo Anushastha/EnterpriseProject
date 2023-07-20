@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arduino.app.service.WatchService;
-import com.google.rpc.context.AttributeContext.Response;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +22,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class WatchController {
     private final WatchService watchService;
+    public WatchController(WatchService watchService) {
+        this.watchService = watchService;
+    }
 
     private boolean checkSession(HttpSession session){
         return(session != null);
@@ -58,13 +59,13 @@ public class WatchController {
         return new ResponseEntity<>("Unauthorized",HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping({"/",""})
-    public ResponseEntity<String> getAllSensor(HttpServletRequest request) throws InterruptedException, ExecutionException{
+   @GetMapping({"/",""})
+    public ResponseEntity<HashMap<String,Double>> getAllSensor(HttpServletRequest request) throws InterruptedException, ExecutionException{
         HashMap<String, Double> values = new HashMap<>();
         if(checkSession(request.getSession(false))){
             values = watchService.getAllValues();
-            return new ResponseEntity<>(values.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(values, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Unauthorized", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
     }
 }

@@ -41,16 +41,22 @@ class _AlertScreenState extends State<AlertScreen> {
 
     final List<UserData> users = snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      final String firstName = data['firstName'] as String;
-      final String middleName = data['middleName'] as String;
-      final String lastName = data['lastName'] as String;
+      final String firstName = data['firstName'] as String? ?? '';
+      final String middleName = data['middleName'] as String? ?? '';
+      final String lastName = data['lastName'] as String? ?? '';
       final String contactNo = doc.id; // Using document ID as contactNo
+      final int heartbeat = (data['heartbeat'] as int?) ?? 0;
+      final double temperature = (data['temperature'] as double?) ?? 0.0;
+      final int stress = (data['stress'] as int?) ?? 0;
       final String name =
           '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
 
       return UserData(
         name: name,
         contactNo: contactNo,
+        heartbeat: heartbeat,
+        temperature: temperature,
+        stress: stress,
       );
     }).toList();
 
@@ -116,7 +122,6 @@ class _AlertScreenState extends State<AlertScreen> {
                         itemCount: _registeredUsers.length,
                         itemBuilder: (context, index) {
                           final user = _registeredUsers[index];
-
                           return Column(
                             children: [
                               Container(
@@ -152,29 +157,58 @@ class _AlertScreenState extends State<AlertScreen> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
+                                      color: user.isAlerted ? Colors.red : null,
                                     ),
                                   ),
                                   subtitle: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        user.contactNo,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                              builder: (context) => RescueMapScreen(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            user.contactNo,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                            ),
                                           ),
-                                          );
-                                        },
-                                        icon: Icon(Icons.location_on),
+                                          Text(
+                                            'Heartbeat: ${user.heartbeat}',
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Stress: ${user.stress}',
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Temperature: ${user.temperature} C',
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RescueMapScreen(),
+                                                ),
+                                              );
+                                            },
+                                            icon: Icon(Icons.location_on),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -199,9 +233,17 @@ class _AlertScreenState extends State<AlertScreen> {
 class UserData {
   final String name;
   final String contactNo;
+  final int heartbeat;
+  final int stress;
+  final double temperature;
+  bool isAlerted;
 
   UserData({
     required this.name,
     required this.contactNo,
+    required this.heartbeat,
+    required this.stress,
+    required this.temperature,
+    this.isAlerted = false,
   });
 }

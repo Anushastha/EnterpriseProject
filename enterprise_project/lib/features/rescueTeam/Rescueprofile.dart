@@ -152,11 +152,11 @@ import '../../custom/theme.dart';
 // import 'editProfile.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String name;
-  final String email;
-  final String contactNo;
-  final String address;
-  final String image;
+  final String? name;
+  final String? email;
+  final String? contactNo;
+  final String? address;
+  final String? image;
 
   const ProfileScreen({
     Key? key,
@@ -210,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 24.0),
               Center(
                 child: Text(
-                  '${widget.name}',
+                  '${widget.name.toString()}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -221,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 20.0),
               Center(
                 child: Text(
-                  '${widget.email}',
+                  '${widget.email.toString()}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -231,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 10.0),
               Center(
                 child: Text(
-                  '${widget.contactNo}',
+                  '${widget.contactNo.toString()}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -241,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 8.0),
               Center(
                 child: Text(
-                  '${widget.address}',
+                  '${widget.address.toString()}',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -395,7 +395,7 @@ class _ProfileState extends State<Profile> {
       contactNo = contactNo;
       address = address; // or provide a default value for the contactNo
     }
-
+    // return Container();
     return ProfileScreen(
       name: name,
       email: email,

@@ -70,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Device',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
+            icon: Icon(Icons.call),
+            label: 'Call',
           ),
         ],
       ),

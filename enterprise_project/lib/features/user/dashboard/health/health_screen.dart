@@ -265,6 +265,7 @@ class healthScreen extends StatefulWidget {
 
 class _healthScreenState extends State<healthScreen> {
   final DatabaseReference _database = FirebaseDatabase.instance.reference();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isButtonOn = false;
   // String _buttonText = "Off";
@@ -315,12 +316,13 @@ class _healthScreenState extends State<healthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: CustomTheme.backgroundColor,
         elevation: 0,
         leading: IconButton(
             onPressed: () {
-              print("hello");
+              _scaffoldKey.currentState!.openDrawer();
             },
             icon: Icon(
               Icons.menu,
@@ -361,6 +363,65 @@ class _healthScreenState extends State<healthScreen> {
           )
         ],
       ),
+      drawer: Drawer(
+          backgroundColor: CustomTheme.lightBlue,
+          child: Column(
+            children: [
+              Container(
+                  color: CustomTheme.blue,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).viewPadding.top + 20,
+                      bottom: 15,
+                      left: 15,
+                      right: 15),
+                  child: Row(children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(300.0),
+                      child: Container(
+                        color: CustomTheme.lightBlue,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          // child: Image.asset(
+                          //   "assets/images/logo.png",
+                          //   height: 20,
+                          //   width: 20,
+                          // ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Simran",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "Kathmandu",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    )
+                  ])),
+              ListTile(
+                title: Text("Logout"),
+                leading: Icon(Icons.exit_to_app),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  Navigator.of(context).pushNamed('/login');
+                },
+              ),
+            ],
+          )),
       body: Container(
         color: CustomTheme.backgroundColor,
         width: double.infinity,

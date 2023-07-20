@@ -1,3 +1,4 @@
+import 'package:enterprise_project/features/rescueTeam/rescueDash.dart';
 import 'package:enterprise_project/features/user/dashboard/location/map.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   healthScreen(),
                   MapScreen(),
                   FindDevice(),
-                  Text("profile"),
+                  EmergencyCallDialog(emergencyNumber: "9843579764"),
                 ],
               ),
             ),

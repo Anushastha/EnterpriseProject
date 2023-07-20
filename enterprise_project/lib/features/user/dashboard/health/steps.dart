@@ -82,7 +82,7 @@ class _StepsScreenState extends State<StepsScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: CircularStepProgressIndicator(
-                                totalSteps: 100,
+                                totalSteps: 1500,
                                 currentStep: steps,
                                 stepSize: 3,
                                 selectedColor: CustomTheme.whiteText,

@@ -1,167 +1,21 @@
-// import 'package:flutter/material.dart';
-// import '../../custom/theme.dart';
-// import 'editProfile.dart';
-//
-// class ProfileScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Column(
-//         children: [
-//           Center(
-//             child: Text(
-//               'Rescue Team Dashboard',
-//               style: TextStyle(
-//                 fontSize: 20.0,
-//                 fontWeight: FontWeight.bold,
-//                 color: CustomTheme.blue,
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: Align(
-//               alignment: Alignment.topRight,
-//               child: IconButton(
-//                 icon: Icon(
-//                   Icons.edit,
-//                   color: CustomTheme.blue,
-//                 ),
-//                 onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(builder: (context) => EditProfileScreen()),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: EdgeInsets.all(8.0),
-//             child: CircleAvatar(
-//               radius: 50.0,
-//               backgroundColor: Colors.grey,
-//               backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEZReC1Pu5YrUBFjENhqQNFsI2crcnfBdIw&usqp=CAU'),
-//             ),
-//           ),
-//           Card(
-//             child: Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(
-//                     'Name',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   subtitle: Text(
-//                       'Jason Rai',
-//                     style: TextStyle(
-//                       color: CustomTheme.lightText,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Card(
-//             child: Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(
-//                     'Email',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   subtitle: Text(
-//                     'jason.rai@example.com',
-//                     style: TextStyle(
-//                       color: CustomTheme.lightText,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Card(
-//             child: Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(
-//                     'Phone',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   subtitle: Text(
-//                       '9841568095',
-//                     style: TextStyle(
-//                       color: CustomTheme.lightText,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Card(
-//             child: Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(
-//                     'Gender',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   subtitle: Text('Male'),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Card(
-//             child: Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(
-//                     'Rescue Department',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   subtitle: Text(
-//                       'Search and Rescue Team',
-//                     style: TextStyle(
-//                       color: CustomTheme.lightText,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../custom/theme.dart';
-// import 'editProfile.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? name;
-  final String? email;
   final String? contactNo;
   final String? address;
+  final String? dob;
   final String? image;
 
   const ProfileScreen({
     Key? key,
     required this.name,
-    required this.email,
+    required this.dob,
     required this.contactNo,
     required this.address,
     required this.image,
@@ -172,8 +26,25 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String? _formattedDOB;
+
   @override
-  //when logged in, this screen comes first
+  void initState() {
+    super.initState();
+    _formattedDOB = _formatDOB(widget.dob);
+  }
+
+  String _formatDOB(String? dob) {
+    if (dob == null || dob.isEmpty) return '';
+    final Timestamp timestamp =
+        Timestamp.fromMillisecondsSinceEpoch(int.parse(dob));
+    final DateTime dateTime = timestamp.toDate();
+    final String formattedDate =
+        '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    return formattedDate;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
@@ -217,17 +88,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-
-              SizedBox(height: 20.0),
-              Center(
-                child: Text(
-                  '${widget.email.toString()}',
-                  style: TextStyle(
-                    color: CustomTheme.textColor,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
               SizedBox(height: 10.0),
               Center(
                 child: Text(
@@ -251,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 8.0),
               Center(
                 child: Text(
-                  'Joined: August, 2022',
+                  'DOB: $_formattedDOB',
                   style: TextStyle(
                     color: CustomTheme.textColor,
                     fontSize: 16,
@@ -259,17 +119,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SizedBox(height: 10.0),
-              Spacer(), // Adds spacer widget to push the text to the bottom
-              Center(
-                child: Text(
-                  'Search and Rescue Department',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: CustomTheme.textColor,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
               SizedBox(height: 10.0),
               Container(),
             ],
@@ -282,13 +131,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 class UserData {
   final String name;
-  final String email;
   final String contactNo;
   final String address;
+  final String dob;
 
   UserData({
     required this.name,
-    required this.email,
+    required this.dob,
     required this.contactNo,
     required this.address,
   });
@@ -305,7 +154,7 @@ class _ProfileState extends State<Profile> {
   var contact;
   var contactNoPass;
   var namePass;
-  var emailPass;
+  var dobPass;
   var addressPass;
 
   @override
@@ -318,7 +167,6 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     _getCurrentUser();
-
     _fetchRegisteredUsers();
   }
 
@@ -334,13 +182,13 @@ class _ProfileState extends State<Profile> {
       final String lastName = data['lastName'] as String;
       final String contactNo = data['contactNo'].toString();
       final String name = '$firstName $lastName';
+      final String dob = data['dob'].toString();
       final String address = data['address'] as String;
-      // final String email = data['email'] as String;
       return UserData(
         name: name,
         contactNo: contactNo,
         address: address,
-        email: 'emailStatic',
+        dob: dob,
       );
     }).toList();
 
@@ -349,7 +197,7 @@ class _ProfileState extends State<Profile> {
         contactNoPass = i.contactNo;
         namePass = i.name;
         addressPass = i.address;
-        emailPass = i.email;
+        dobPass = i.dob;
       }
       setState(() {});
     }
@@ -366,13 +214,14 @@ class _ProfileState extends State<Profile> {
       final String firstName = data['firstName'] as String;
       final String lastName = data['lastName'] as String;
       final String contactNo = data['contactNo'].toString();
+      final String dob = data['dob'].toString();
       final String address = data['address'] as String;
       final String name = '$firstName $lastName';
       return UserData(
         name: name,
         contactNo: contactNo,
         address: address,
-        email: 'emailStaic',
+        dob: dob,
       );
     }).toList();
 
@@ -382,23 +231,23 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
-  // ignore: dead_code
   Widget build(BuildContext context) {
     var name = namePass;
-    var email = emailPass;
+    var dob = dobPass;
     var contactNo = contactNoPass;
     var address = addressPass;
+
     if (_currentUser == null) {
       // Handle the case when _currentUser is null
       name = name; // or provide a default value for the name
-      email = email;
       contactNo = contactNo;
-      address = address; // or provide a default value for the contactNo
+      address = address;
+      dob = dob; // or provide a default value for the contactNo
     }
-    // return Container();
+
     return ProfileScreen(
       name: name,
-      email: email,
+      dob: dob,
       contactNo: contactNo,
       address: address,
       image: 'https://example.com/profile-image.jpg',

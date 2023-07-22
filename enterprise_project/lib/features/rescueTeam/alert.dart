@@ -1,6 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:enterprise_project/features/rescueTeam/map.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+
+import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../custom/theme.dart';
@@ -12,26 +19,97 @@ class AlertScreen extends StatefulWidget {
 
 class _AlertScreenState extends State<AlertScreen> {
   late User _currentUser; //late = will be initialized later
+
   List<UserData> _registeredUsers = [];
+
+  DatabaseReference? _databaseRef;
+
+  int _numDevices = 0; // Number of devices from the Realtime Database
+
   bool isButtonPressed = false;
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _getCurrentUser();
+
       _fetchRegisteredUsers();
+
+      _fetchNumDevices(); // Fetch number of devices from Realtime Database
+
+      print(_registeredUsers);
     });
   }
 
   Future<void> _getCurrentUser() async {
     final currentUser = FirebaseAuth.instance.currentUser;
+
     if (currentUser != null) {
       setState(() {
         _currentUser = currentUser;
       });
     }
   }
+
+//   Future<void> _fetchRegisteredUsers() async {
+
+//   final QuerySnapshot snapshot = await FirebaseFirestore.instance
+
+//       .collection('users')
+
+//       .where('role', isEqualTo: 'User')
+
+//       .get();
+
+//   final List<UserData> users = snapshot.docs.map((doc) {
+
+//     final data = doc.data() as Map<String, dynamic>;
+
+//     final String firstName = data['firstName'] as String;
+
+//     final String middleName = data['middleName'] as String;
+
+//     final String lastName = data['lastName'] as String;
+
+//     final String contactNo = doc.id;
+
+//     final int bpm = data['BPM'] as int;
+
+//     final int heartbeat = data['Heartbeat'] as int;
+
+//     final double temperature = data['Temperature'] as double;
+
+//     final double spo2 = data['SPO2'] as double;
+
+//     final String name =
+
+//         '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
+
+//     return UserData(
+
+//       name: name,
+
+//       contactNo: contactNo,
+
+//       heartbeat: heartbeat.toString(),
+
+//       temperature: temperature.toString(),
+
+//       spO2: spo2.toString(),
+
+//     );
+
+//   }).toList();
+
+//   setState(() {
+
+//     _registeredUsers = users;
+
+//   });
+
+// }
 
   Future<void> _fetchRegisteredUsers() async {
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -41,32 +119,56 @@ class _AlertScreenState extends State<AlertScreen> {
 
     final List<UserData> users = snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      final String firstName = data['firstName'] as String? ?? '';
-      final String middleName = data['middleName'] as String? ?? '';
-      final String lastName = data['lastName'] as String? ?? '';
+
+      final String firstName = data['firstName'] as String;
+
+      final String middleName = data['middleName'] as String;
+
+      final String lastName = data['lastName'] as String;
+
       final String contactNo = doc.id; // Using document ID as contactNo
-      final int heartbeat = (data['heartbeat'] as int?) ?? 0;
-      final double temperature = (data['temperature'] as double?) ?? 0.0;
-      final int stress = (data['stress'] as int?) ?? 0;
+
       final String name =
           '$firstName ${middleName.isNotEmpty ? '$middleName ' : ''}$lastName';
 
       return UserData(
         name: name,
         contactNo: contactNo,
-        heartbeat: heartbeat,
-        temperature: temperature,
-        stress: stress,
+        heartbeat: data["Heartbeat  "],
+        spO2: data["SP02"],
+        temperature: data["Temperature"],
       );
     }).toList();
+
+    print(_registeredUsers);
 
     setState(() {
       _registeredUsers = users;
     });
   }
 
+  Future<void> _fetchNumDevices() async {
+    _databaseRef = FirebaseDatabase.instance.reference();
+
+    // Listen to the number of devices in the Realtime Database
+
+    _databaseRef!.child('Devices').once().then((event) {
+      final snapshot = event.snapshot;
+
+      final data = snapshot.value;
+
+      if (data != null) {
+        setState(() {
+          _numDevices = data as int;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(_registeredUsers);
+
     return Scaffold(
       backgroundColor: CustomTheme.backgroundColor,
       body: SingleChildScrollView(
@@ -86,7 +188,7 @@ class _AlertScreenState extends State<AlertScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (_registeredUsers.isEmpty && isButtonPressed)
+                  if (_registeredUsers.isEmpty)
                     Column(
                       children: [
                         Icon(
@@ -122,11 +224,16 @@ class _AlertScreenState extends State<AlertScreen> {
                         itemCount: _registeredUsers.length,
                         itemBuilder: (context, index) {
                           final user = _registeredUsers[index];
+
+                          final bool isHighlighted = index == _numDevices;
+
                           return Column(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: isHighlighted
+                                      ? CustomTheme.red
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10.0),
                                   boxShadow: [
                                     BoxShadow(
@@ -140,8 +247,7 @@ class _AlertScreenState extends State<AlertScreen> {
                                 child: ListTile(
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 8.0),
-                                  tileColor: Colors
-                                      .transparent, // Remove tileColor from ListTile
+                                  tileColor: Colors.transparent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -153,63 +259,72 @@ class _AlertScreenState extends State<AlertScreen> {
                                     ),
                                   ),
                                   title: Text(
-                                    user.name,
+                                    user.name.toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
-                                      color: user.isAlerted ? Colors.red : null,
+                                      color: isHighlighted
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                   subtitle: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            user.contactNo,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Heartbeat: ${user.heartbeat}',
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Stress: ${user.stress}',
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Temperature: ${user.temperature} C',
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      RescueMapScreen(),
-                                                ),
-                                              );
-                                            },
-                                            icon: Icon(Icons.location_on),
-                                          ),
-                                        ],
+                                      Text(
+                                        user.contactNo.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                          color: isHighlighted
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
                                       ),
+                                      Text(
+                                        user.heartbeat.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                          color: isHighlighted
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        user.spO2.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                          color: isHighlighted
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        user.temperature.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                          color: isHighlighted
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      if (isHighlighted)
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RescueMapScreen(),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(Icons.location_on),
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -231,19 +346,21 @@ class _AlertScreenState extends State<AlertScreen> {
 }
 
 class UserData {
-  final String name;
-  final String contactNo;
-  final int heartbeat;
-  final int stress;
-  final double temperature;
-  bool isAlerted;
+  final String? name;
+
+  final String? contactNo;
+
+  final num? heartbeat;
+
+  final num? temperature;
+
+  final num? spO2;
 
   UserData({
     required this.name,
     required this.contactNo,
     required this.heartbeat,
-    required this.stress,
     required this.temperature,
-    this.isAlerted = false,
+    required this.spO2,
   });
 }

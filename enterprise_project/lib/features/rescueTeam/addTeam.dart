@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enterprise_project/custom/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -93,6 +94,7 @@ class _AddTeamState extends State<AddTeam> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: CustomTheme.blue,
         elevation: 0.0,
         centerTitle: true,
         title: Text('Add Team Member'),

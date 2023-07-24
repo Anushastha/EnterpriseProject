@@ -1,9 +1,13 @@
+import 'package:enterprise_project/features/rescueTeam/rescueDash.dart';
 import 'package:enterprise_project/features/user/dashboard/location/map.dart';
 import 'package:flutter/material.dart';
 
-import '../../../custom/icon/custom_icon.dart';
 import '../../../custom/theme.dart';
+<<<<<<< HEAD
 import '../screens/chat.dart';
+=======
+import 'find_device.dart';
+>>>>>>> 0e237b4dd7e775ffb5377d2b5fa62bc59f90a7db
 import 'health/health_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -42,8 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Screens for each menu option
                   healthScreen(),
                   MapScreen(),
+<<<<<<< HEAD
                   Text("device"),
                   ChatPage(),
+=======
+                  FindDevice(),
+                  EmergencyCallDialog(emergencyNumber: "9843579764"),
+>>>>>>> 0e237b4dd7e775ffb5377d2b5fa62bc59f90a7db
                 ],
               ),
             ),
@@ -70,8 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Device',
           ),
           BottomNavigationBarItem(
+<<<<<<< HEAD
             icon: Icon(Icons.message),
             label: 'Chats',
+=======
+            icon: Icon(Icons.call),
+            label: 'Call',
+>>>>>>> 0e237b4dd7e775ffb5377d2b5fa62bc59f90a7db
           ),
         ],
       ),

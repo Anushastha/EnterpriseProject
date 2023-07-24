@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/enterprise_project/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/android/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/lib/custom/utils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/custom/utils/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/user/dashboard/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/user/dashboard/home_screen.dart" afterDir="false" />
@@ -24,6 +25,12 @@
       <change beforePath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/windows/flutter/generated_plugins.cmake" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/addTeam.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/alert.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/alert.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/map.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/features/rescueTeam/map.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enterprise_project/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/enterprise_project/lib/main.dart" afterDir="false" />
+>>>>>>> 0e237b4dd7e775ffb5377d2b5fa62bc59f90a7db
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

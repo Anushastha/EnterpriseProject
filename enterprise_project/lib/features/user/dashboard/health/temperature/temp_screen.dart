@@ -1,16 +1,16 @@
-import 'package:enterprise_project/features/user/dashboard/health/bpm/daily_record.dart';
-import 'package:enterprise_project/features/user/dashboard/health/bpm/weekly_record.dart';
+import 'package:enterprise_project/features/user/dashboard/health/temperature/daily_record.dart';
+import 'package:enterprise_project/features/user/dashboard/health/temperature/weekly_record.dart';
 import 'package:flutter/material.dart';
 import '../../../../../custom/theme.dart';
 
-class BpmScreen extends StatefulWidget {
-  const BpmScreen({super.key});
+class TempScreen extends StatefulWidget {
+  const TempScreen({super.key});
 
   @override
-  State<BpmScreen> createState() => _BpmScreenState();
+  State<TempScreen> createState() => _TempScreenState();
 }
 
-class _BpmScreenState extends State<BpmScreen> with TickerProviderStateMixin {
+class _TempScreenState extends State<TempScreen> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -41,7 +41,7 @@ class _BpmScreenState extends State<BpmScreen> with TickerProviderStateMixin {
               left: 60,
               top: 15,
             ),
-            child: Text("BPM Record",
+            child: Text("SPO2 Record",
                 style: TextStyle(color: CustomTheme.textColor, fontSize: 20)),
           ),
           bottom: TabBar(

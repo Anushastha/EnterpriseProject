@@ -49,8 +49,8 @@ class _DailyRecordState extends State<DailyRecord> {
                           borderWidth: 0),
                       series: <ChartSeries>[
                         SplineAreaSeries<BpmData, String>(
-                          color: CustomTheme.red.withOpacity(0.2),
-                          borderColor: CustomTheme.red,
+                          color: CustomTheme.blue.withOpacity(0.2),
+                          borderColor: CustomTheme.blue,
                           borderWidth: 2,
                           // Bind data source
                           dataSource: <BpmData>[
@@ -68,7 +68,7 @@ class _DailyRecordState extends State<DailyRecord> {
                           yValueMapper: (BpmData sales, _) => sales.bpm,
                         ),
                         SplineSeries<BpmData, String>(
-                          color: CustomTheme.red,
+                          color: CustomTheme.blue,
                           // Bind data source
                           dataSource: <BpmData>[
                             BpmData('0', 80),

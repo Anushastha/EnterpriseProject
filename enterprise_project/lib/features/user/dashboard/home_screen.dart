@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../custom/icon/custom_icon.dart';
 import '../../../custom/theme.dart';
+import '../screens/chat.dart';
 import 'health/health_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   healthScreen(),
                   MapScreen(),
                   Text("device"),
-                  Text("profile"),
+                  ChatPage(),
                 ],
               ),
             ),
@@ -69,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Device',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.message),
+            label: 'Chats',
           ),
         ],
       ),

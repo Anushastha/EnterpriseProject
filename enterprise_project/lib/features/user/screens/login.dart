@@ -9,6 +9,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 import '../../../custom/button/custom_button.dart';
 import '../../../custom/textfield/custom_textfield.dart';
 import '../../../custom/utils/constants.dart';
+import 'auth_chatroom.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -165,6 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               data: _data);
                                           print(_data);
 
+                                          // UserAuths token = new UserAuths();
+                                          // token.tokens = _response;
+
                                           if (_response.statusCode! >= 200 &&
                                               _response.statusCode! <= 300) {
                                             final String role =
@@ -178,7 +182,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       "Logged in successfully");
                                             } else if (role == 'Rescue') {
                                               Navigator.of(context).pushNamed(
-                                                  '/rescueDashboard', arguments : contact.text);
+                                                  '/rescueDashboard',
+                                                  arguments: contact.text);
                                               Fluttertoast.showToast(
                                                   msg:
                                                       "Logged in successfully");

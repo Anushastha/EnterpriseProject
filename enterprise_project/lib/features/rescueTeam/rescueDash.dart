@@ -1,6 +1,7 @@
 import 'package:enterprise_project/features/rescueTeam/editProfile.dart';
 import 'package:enterprise_project/features/rescueTeam/map.dart';
 import 'package:enterprise_project/features/rescueTeam/team.dart';
+import 'package:enterprise_project/features/user/screens/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../custom/theme.dart';
@@ -50,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => RescueMapScreen(),
-              ),
+                ),
               );
             },
           ),
@@ -131,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Profile(),
                   AlertScreen(),
                   TeamScreen(),
-                  Chats(),
+                  ChatPage(),
                 ],
               ),
             ),
